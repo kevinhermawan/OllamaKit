@@ -1,0 +1,28 @@
+name: Code Quality
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-ios:
+    runs-on: macos-13
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build and test
+        run: xcodebuild test -scheme OllamaKit -destination 'platform=iOS Simulator,name=iPhone 14 Pro'
+
+  test-macos:
+    runs-on: macos-13
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build and test
+        run: xcodebuild test -scheme OllamaKit -destination 'platform=macOS,arch=x86_64'
