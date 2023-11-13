@@ -1,18 +1,18 @@
 # OllamaKit
 
-A Swift library for interacting with the Ollama API.
+A Swift library for interacting with the [Ollama](https://github.com/jmorganca/ollama) API.
 
 ## Overview
 
-`OllamaKit` is a Swift library for interacting with the Ollama API, built on top of the powerful [Alamofire](https://github.com/Alamofire/Alamofire) networking framework. It extends Alamofire's capabilities to provide a streamlined and intuitive interface for managing network interactions and data processing specific to the [Ollama API](https://github.com/jmorganca/ollama/blob/main/docs/api.md).
+`OllamaKit` simplifies the process of connecting Swift applications to the Ollama API, abstracting the complexities of network requests and data handling.
 
 ## Primary Use
 
-`OllamaKit` is primarily designed for use within [Ollamac](https://github.com/kevinhermawan/Ollamac), a macOS application dedicated to interacting with Ollama models. While the library offers comprehensive functionalities for Ollama API interaction, its features and optimizations are specifically aligned with the requirements of `Ollamac`. This focus ensures that `OllamaKit` provides an ideal toolset for `Ollamac`, facilitating efficient and effective model management and interaction.
+`OllamaKit` is primarily designed for use within [Ollamac](https://github.com/kevinhermawan/Ollamac), a macOS app for interacting with the Ollama models. While the library offers comprehensive functionalities for Ollama API interaction, its features and optimizations are specifically aligned with the requirements of `Ollamac`.
 
-## Requirements
+## Documentation
 
-- iOS 13.0+ / macOS 11+
+You can find the documentation here: [https://kevinhermawan.github.io/OllamaKit/documentation/ollamakit](https://kevinhermawan.github.io/OllamaKit/documentation/ollamakit)
 
 ## Installation
 
