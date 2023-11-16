@@ -102,9 +102,9 @@ extension OllamaKit {
     /// - Throws: An error if the copy operation fails.
     public func copyModel(data: OKCopyModelRequestData) async throws -> Void {
         let request = AF.request(router.copyModel(data: data)).validate()
-        let response = request.serializingData()
+        let serializedData = request.serializingData()
         
-        _ = try await response.value
+        _ = await serializedData.response
     }
 }
 
@@ -117,8 +117,8 @@ extension OllamaKit {
     /// - Throws: An error if the deletion fails.
     public func deleteModel(data: OKDeleteModelRequestData) async throws -> Void {
         let request = AF.request(router.deleteModel(data: data)).validate()
-        let response = request.serializingData()
+        let serializedData = request.serializingData()
         
-        _ = try await response.value
+        _ = await serializedData.response
     }
 }
