@@ -1,9 +1,8 @@
 name: Deploy Docs
 
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: [published]
 
 permissions:
   contents: read
