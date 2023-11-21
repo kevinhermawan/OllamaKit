@@ -1,3 +1,13 @@
+# 2.0.0
+
+## BREAKING CHANGES
+
+- refactor: migrates `generate` method from completion handler to Combine
+
+## Misc
+
+- ci: only deploy docs when release created
+
 # 1.0.2
 
 ## Fixed
