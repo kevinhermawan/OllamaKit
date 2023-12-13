@@ -22,29 +22,6 @@ public struct OKGenerateRequestData: Encodable {
     public var context: [Int]?
     public var raw: Bool?
     
-    public enum Format: String, Encodable {
-        case json
-    }
-    
-    public struct Options: Encodable {
-        public var mirostat: Int?
-        public var mirostatEta: Double?
-        public var mirostatTau: Double?
-        public var numCtx: Int?
-        public var numGqa: Int?
-        public var numGpu: Int?
-        public var numThread: Int?
-        public var repeatLastN: Int?
-        public var repeatPenalty: Int?
-        public var temperature: Double?
-        public var seed: Int?
-        public var stop: String?
-        public var tfsZ: Double?
-        public var numPredict: Int?
-        public var topK: Int?
-        public var topP: Double?
-    }
-    
     public init(model: String, prompt: String) {
         self.stream = true
         self.model = model

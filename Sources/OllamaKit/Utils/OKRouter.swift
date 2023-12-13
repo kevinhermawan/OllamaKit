@@ -15,6 +15,7 @@ internal enum OKRouter {
     case models
     case modelInfo(data: OKModelInfoRequestData)
     case generate(data: OKGenerateRequestData)
+    case chat(data: OkChatRequestData)
     case copyModel(data: OKCopyModelRequestData)
     case deleteModel(data: OKDeleteModelRequestData)
     
@@ -28,6 +29,8 @@ internal enum OKRouter {
             return "/api/show"
         case .generate:
             return "/api/generate"
+        case .chat:
+            return "/api/chat"
         case .copyModel:
             return "/api/copy"
         case .deleteModel:
@@ -44,6 +47,8 @@ internal enum OKRouter {
         case .modelInfo:
             return .post
         case .generate:
+            return .post
+        case .chat:
             return .post
         case .copyModel:
             return .post
@@ -68,6 +73,8 @@ extension OKRouter: URLRequestConvertible {
         case .modelInfo(let data):
             request.httpBody = try JSONEncoder.default.encode(data)
         case .generate(let data):
+            request.httpBody = try JSONEncoder.default.encode(data)
+        case .chat(let data):
             request.httpBody = try JSONEncoder.default.encode(data)
         case .copyModel(let data):
             request.httpBody = try JSONEncoder.default.encode(data)
