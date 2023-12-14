@@ -102,21 +102,16 @@ extension OllamaKit {
                     
                     // Try to decode buffered data
                     while let jsonChunk = extractNextJSONObject(from: &buffer) {
-                        if let jsonString = String(data: jsonChunk, encoding: .utf8) {
-                            print("JSON: \(jsonString)")
-                        }
                         do {
                             let response = try decoder.decode(OKChatResponse.self, from: jsonChunk)
                             subject.send(response)
                         } catch {
-                            print(error)
                             subject.send(completion: .failure(error))
                             return
                         }
                     }
 
                 case .failure(let error):
-                    print(error)
                     subject.send(completion: .failure(error))
                 }
 
