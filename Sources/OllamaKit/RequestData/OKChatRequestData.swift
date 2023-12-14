@@ -18,21 +18,21 @@ public struct OkChatRequestData: Encodable {
     public var format: Format?
     public var options: Options?
     public var template: String?
-    
-    public struct ChatMessage: Encodable {
-        public var role: String
-        public var content: String
-        
-        public init(role: String, content: String) {
-            self.role = role
-            self.content = content
-        }
-    }
 
     public init(model: String, messages: [ChatMessage]) {
         self.stream = true
         self.model = model
         self.messages = messages
+    }
+}
+
+public struct ChatMessage: Encodable {
+    public var role: String
+    public var content: String
+    
+    public init(role: String, content: String) {
+        self.role = role
+        self.content = content
     }
 }
 
