@@ -1,3 +1,14 @@
+# 2.0.1
+
+## Added
+
+- Ollama Chat API support by @AugustDev
+- Chat API with image by @AugustDev
+
+## Improved
+
+- refactor: renames `OkChatRequestData` to `OKChatRequestData` by @kevinhermawan
+
 # 2.0.0
 
 ## BREAKING CHANGES
