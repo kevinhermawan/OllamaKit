@@ -29,10 +29,12 @@ public struct OkChatRequestData: Encodable {
 public struct ChatMessage: Encodable {
     public var role: String
     public var content: String
+    public let images: [String]
     
-    public init(role: String, content: String) {
+    public init(role: String, content: String, images: [String] = []) {
         self.role = role
         self.content = content
+        self.images = images
     }
 }
 
