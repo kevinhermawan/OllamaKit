@@ -15,7 +15,7 @@ internal enum OKRouter {
     case models
     case modelInfo(data: OKModelInfoRequestData)
     case generate(data: OKGenerateRequestData)
-    case chat(data: OkChatRequestData)
+    case chat(data: OKChatRequestData)
     case copyModel(data: OKCopyModelRequestData)
     case deleteModel(data: OKDeleteModelRequestData)
     

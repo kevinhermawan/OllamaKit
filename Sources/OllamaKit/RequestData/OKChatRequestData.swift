@@ -10,7 +10,7 @@ import Foundation
 /// A structure representing the data required to generate responses from the Ollama API.
 ///
 /// It includes the model name, prompt, and other optional parameters that tailor the generation process, such as format and context.
-public struct OkChatRequestData: Encodable {
+public struct OKChatRequestData: Encodable {
     private let stream: Bool
 
     public let model: String
