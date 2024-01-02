@@ -7,56 +7,52 @@
 
 import Foundation
 
-/// A structure representing the data required to generate responses from the Ollama API.
-///
-/// It includes the model name, prompt, and other optional parameters that tailor the generation process, such as format and context.
+/// A structure that encapsulates data for chat requests to the Ollama API.
 public struct OKChatRequestData: Encodable {
     private let stream: Bool
     
+    /// A string representing the model identifier to be used for the chat session.
     public let model: String
-    public let messages: [ChatMessage]
-    public var format: Format?
-    public var options: Options?
-    public var template: String?
     
-    public init(model: String, messages: [ChatMessage]) {
+    /// An array of ``Message`` instances representing the content to be sent to the Ollama API.
+    public let messages: [Message]
+    
+    /// Optional ``OKCompletionOptions`` providing additional configuration for the chat request.
+    public var options: OKCompletionOptions?
+    
+    public init(model: String, messages: [Message]) {
         self.stream = true
         self.model = model
         self.messages = messages
     }
-}
-
-public struct ChatMessage: Encodable {
-    public var role: String
-    public var content: String
-    public let images: [String]
     
-    public init(role: String, content: String, images: [String] = []) {
-        self.role = role
-        self.content = content
-        self.images = images
+    /// A structure that represents a single message in the chat request.
+    public struct Message: Encodable {
+        /// A ``Role`` value indicating the sender of the message (system, assistant, user).
+        public let role: Role
+        
+        /// A string containing the message's content.
+        public let content: String
+        
+        /// An optional array of base64-encoded images.
+        public let images: [String]
+        
+        public init(role: Role, content: String, images: [String] = []) {
+            self.role = role
+            self.content = content
+            self.images = images
+        }
+        
+        /// An enumeration that represents the role of the message sender.
+        public enum Role: String, Encodable {
+            /// Indicates the message is from the system.
+            case system
+            
+            /// Indicates the message is from the assistant.
+            case assistant
+            
+            /// Indicates the message is from the user.
+            case user
+        }
     }
-}
-
-public enum Format: String, Encodable {
-    case json
-}
-
-public struct Options: Encodable {
-    public var mirostat: Int?
-    public var mirostatEta: Double?
-    public var mirostatTau: Double?
-    public var numCtx: Int?
-    public var numGqa: Int?
-    public var numGpu: Int?
-    public var numThread: Int?
-    public var repeatLastN: Int?
-    public var repeatPenalty: Int?
-    public var temperature: Double?
-    public var seed: Int?
-    public var stop: String?
-    public var tfsZ: Double?
-    public var numPredict: Int?
-    public var topK: Int?
-    public var topP: Double?
 }

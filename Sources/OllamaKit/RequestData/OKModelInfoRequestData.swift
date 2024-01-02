@@ -7,10 +7,9 @@
 
 import Foundation
 
-/// A structure representing the request data for fetching model information from the Ollama API.
-///
-/// This structure is used to specify the name of the model for which detailed information is requested.
+/// A structure that encapsulates the data necessary for requesting information about a specific model from the Ollama API.
 public struct OKModelInfoRequestData: Encodable {
+    /// A string representing the identifier of the model for which information is requested.
     public let name: String
     
     public init(name: String) {
