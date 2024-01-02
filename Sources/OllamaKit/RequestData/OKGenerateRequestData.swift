@@ -7,24 +7,32 @@
 
 import Foundation
 
-/// A structure representing the data required to generate responses from the Ollama API.
-///
-/// It includes the model name, prompt, and other optional parameters that tailor the generation process, such as format and context.
+/// A structure that encapsulates the data required for generating responses using the Ollama API.
 public struct OKGenerateRequestData: Encodable {
     private let stream: Bool
-
-    public let model: String
-    public let prompt: String
-    public var format: Format?
-    public var system: String?
-    public var template: String?
-    public var options: Options?
-    public var context: [Int]?
-    public var raw: Bool?
     
-    public init(model: String, prompt: String) {
+    /// A string representing the identifier of the model.
+    public let model: String
+    
+    /// A string containing the initial input or prompt.
+    public let prompt: String
+    
+    /// /// An optional array of base64-encoded images.
+    public let images: [String]
+    
+    /// An optional string specifying the system message.
+    public var system: String?
+    
+    /// An optional array of doubles representing contextual information.
+    public var context: [Double]?
+    
+    /// Optional ``OKCompletionOptions`` providing additional configuration for the generation request.
+    public var options: OKCompletionOptions?
+    
+    public init(model: String, prompt: String, images: [String] = []) {
         self.stream = true
         self.model = model
         self.prompt = prompt
+        self.images = images
     }
 }

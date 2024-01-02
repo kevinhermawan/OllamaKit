@@ -7,10 +7,9 @@
 
 import Foundation
 
-/// A structure representing the request data for deleting a model through the Ollama API.
-///
-/// This structure encapsulates the name of the model to be deleted, providing a straightforward way to specify which model should be removed.
+/// A structure that encapsulates the necessary data to request a model deletion in the Ollama API.
 public struct OKDeleteModelRequestData: Encodable {
+    /// A string representing the identifier of the model to be deleted.
     public let name: String
     
     public init(name: String) {
