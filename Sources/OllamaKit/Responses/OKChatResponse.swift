@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  OKChatResponse.swift
+//
 //
 //  Created by Augustinas Malinauskas on 12/12/2023.
 //
