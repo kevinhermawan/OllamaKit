@@ -1,3 +1,10 @@
+# 3.0.0
+
+## What's Changed
+
+- docs: improves the documentation by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/6
+- feat: adds reactive implementation for all APIs by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/5
+
 # 2.0.1
 
 ## Added
