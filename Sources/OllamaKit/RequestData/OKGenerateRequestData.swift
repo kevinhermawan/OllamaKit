@@ -23,8 +23,8 @@ public struct OKGenerateRequestData: Encodable {
     /// An optional string specifying the system message.
     public var system: String?
     
-    /// An optional array of doubles representing contextual information.
-    public var context: [Double]?
+    /// An optional array of integers representing contextual information.
+    public var context: [Int]?
     
     /// Optional ``OKCompletionOptions`` providing additional configuration for the generation request.
     public var options: OKCompletionOptions?
