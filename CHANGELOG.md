@@ -1,3 +1,11 @@
+# 3.0.1
+
+## What's Changed
+
+- refactor: migrates `chat` and `generate` from `Future` to `PassthroughSubject` by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/8
+- chore: moves `Documentation.md` by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/9
+- fix: `context` must be an array of integers by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/10
+
 # 3.0.0
 
 ## What's Changed
