@@ -50,4 +50,8 @@ final class OllamaKitTests: XCTestCase {
     func testDeleteModelFailure() async throws {
         
     }
+    
+    func testGenerateEmbeddingsFailure() async throws {
+        
+    }
 }

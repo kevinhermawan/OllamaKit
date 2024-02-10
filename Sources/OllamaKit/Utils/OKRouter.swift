@@ -18,6 +18,7 @@ internal enum OKRouter {
     case chat(data: OKChatRequestData)
     case copyModel(data: OKCopyModelRequestData)
     case deleteModel(data: OKDeleteModelRequestData)
+    case generateEmbeddings(data: OKGenerateEmbeddingsRequestData)
     
     internal var path: String {
         switch self {
@@ -35,6 +36,8 @@ internal enum OKRouter {
             return "/api/copy"
         case .deleteModel:
             return "/api/delete"
+        case .generateEmbeddings:
+            return "/api/embeddings"
         }
     }
     
@@ -54,6 +57,8 @@ internal enum OKRouter {
             return .post
         case .deleteModel:
             return .delete
+        case .generateEmbeddings:
+            return .post
         }
     }
     
@@ -79,6 +84,8 @@ extension OKRouter: URLRequestConvertible {
         case .copyModel(let data):
             request.httpBody = try JSONEncoder.default.encode(data)
         case .deleteModel(let data):
+            request.httpBody = try JSONEncoder.default.encode(data)
+        case .generateEmbeddings(let data):
             request.httpBody = try JSONEncoder.default.encode(data)
         default:
             break
