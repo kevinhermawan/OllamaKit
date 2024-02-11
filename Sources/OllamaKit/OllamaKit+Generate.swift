@@ -42,8 +42,12 @@ extension OllamaKit {
                 case .failure(let error):
                     subject.send(completion: .failure(error))
                 }
-            case .complete(_):
-                subject.send(completion: .finished)
+            case .complete(let completion):
+                if completion.error != nil {
+                    subject.send(completion: .failure(completion.error!))
+                } else {
+                    subject.send(completion: .finished)
+                }
             }
         }
         
