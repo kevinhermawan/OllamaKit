@@ -1,3 +1,10 @@
+# 3.0.2
+
+## What's Changed
+
+- Added generateEmbeddings by @thrashr888 in https://github.com/kevinhermawan/OllamaKit/pull/11
+- Forward Alamofire failures by @malicious in https://github.com/kevinhermawan/OllamaKit/pull/12
+
 # 3.0.1
 
 ## What's Changed
