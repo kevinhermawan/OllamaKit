@@ -19,7 +19,7 @@ public struct OKGenerateEmbeddingsRequestData: Encodable {
     public var options: OKCompletionOptions?
     
     /// Optionally control how long the model will stay loaded into memory following the request (default: 5m)
-    public var keep_alive: String?
+    public var keepAlive: String?
     
     public init(model: String, prompt: String) {
         self.model = model

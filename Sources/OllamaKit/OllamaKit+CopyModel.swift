@@ -22,7 +22,7 @@ extension OllamaKit {
     ///
     /// - Parameter data: The ``OKCopyModelRequestData`` containing the details needed to copy the model.
     /// - Throws: An error if the request to copy the model fails.
-    public func copyModel(data: OKCopyModelRequestData) async throws -> Void {
+    public func copyModel(data: OKCopyModelRequestData) async throws {
         let request = AF.request(router.copyModel(data: data)).validate()
         _ = try await request.serializingData().response.result.get()
     }

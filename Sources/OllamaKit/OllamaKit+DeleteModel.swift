@@ -22,7 +22,7 @@ extension OllamaKit {
     ///
     /// - Parameter data: The ``OKDeleteModelRequestData`` containing the details needed to delete the model.
     /// - Throws: An error if the request to delete the model fails.
-    public func deleteModel(data: OKDeleteModelRequestData) async throws -> Void {
+    public func deleteModel(data: OKDeleteModelRequestData) async throws {
         let request = AF.request(router.deleteModel(data: data)).validate()
         _ = try await request.serializingData().response.result.get()
     }
