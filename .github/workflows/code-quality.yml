@@ -10,7 +10,7 @@ on:
 
 jobs:
   test-ios:
-    runs-on: macos-14-arm64
+    runs-on: macos-13-arm64
 
     steps:
       - uses: actions/checkout@v3
@@ -19,7 +19,7 @@ jobs:
         run: xcodebuild test -scheme OllamaKit -destination 'platform=iOS Simulator,name=iPhone 15 Pro'
 
   test-macos:
-    runs-on: macos-14-arm64
+    runs-on: macos-13-arm64
 
     steps:
       - uses: actions/checkout@v3
