@@ -15,7 +15,7 @@ extension OllamaKit {
     /// This method sends a request to the Ollama API to copy a model based on the provided ``OKCopyModelRequestData``.
     ///
     /// ```swift
-    /// let ollamaKit = OllamaKit(baseURL: URL(string: "http://localhost:11434")!)
+    /// let ollamaKit = OllamaKit()
     /// let requestData = OKCopyModelRequestData(/* parameters */)
     /// try await ollamaKit.copyModel(data: requestData)
     /// ```
@@ -32,7 +32,7 @@ extension OllamaKit {
     /// This method provides a reactive approach to request a model copy operation. It accepts ``OKCopyModelRequestData`` and returns a Combine publisher that completes when the copy operation is finished.
     ///
     /// ```swift
-    /// let ollamaKit = OllamaKit(baseURL: URL(string: "http://localhost:11434")!)
+    /// let ollamaKit = OllamaKit()
     /// let requestData = OKCopyModelRequestData(/* parameters */)
     ///
     /// ollamaKit.copyModel(data: requestData)

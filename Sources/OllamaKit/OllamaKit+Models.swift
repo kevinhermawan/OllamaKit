@@ -15,7 +15,7 @@ extension OllamaKit {
     /// This method returns an ``OKModelResponse`` containing the details of the available models.
     ///
     /// ```swift
-    /// let ollamaKit = OllamaKit(baseURL: URL(string: "http://localhost:11434")!)
+    /// let ollamaKit = OllamaKit()
     /// let models = try await ollamaKit.models()
     /// ```
     ///
@@ -34,7 +34,7 @@ extension OllamaKit {
     /// This method provides a reactive approach to fetch model data, returning a Combine publisher that emits an ``OKModelResponse`` with details of available models.
     ///
     /// ```swift
-    /// let ollamaKit = OllamaKit(baseURL: URL(string: "http://localhost:11434")!)
+    /// let ollamaKit = OllamaKit()
     ///
     /// ollamaKit.models()
     ///     .sink(receiveCompletion: { completion in

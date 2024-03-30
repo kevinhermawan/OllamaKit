@@ -15,7 +15,7 @@ extension OllamaKit {
     /// This method sends a request to the Ollama API to delete a model based on the provided ``OKDeleteModelRequestData``.
     ///
     /// ```swift
-    /// let ollamaKit = OllamaKit(baseURL: URL(string: "http://localhost:11434")!)
+    /// let ollamaKit = OllamaKit()
     /// let requestData = OKDeleteModelRequestData(/* parameters */)
     /// try await ollamaKit.deleteModel(data: requestData)
     /// ```
@@ -32,7 +32,7 @@ extension OllamaKit {
     /// This method provides a reactive approach to request a model deletion operation. It accepts ``OKDeleteModelRequestData`` and returns a Combine publisher that completes when the deletion operation is finished.
     ///
     /// ```swift
-    /// let ollamaKit = OllamaKit(baseURL: URL(string: "http://localhost:11434")!)
+    /// let ollamaKit = OllamaKit()
     /// let requestData = OKDeleteModelRequestData(/* parameters */)
     ///
     /// ollamaKit.deleteModel(data: requestData)
