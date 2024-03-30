@@ -1,5 +1,5 @@
 //
-//  OKGenerateEmbeddingsRequestData.swift
+//  OKEmbeddingsRequestData.swift
 //
 //
 //  Created by Paul Thrasher on 02/09/24.
@@ -8,7 +8,7 @@
 import Foundation
 
 /// A structure that encapsulates the data required for generating embeddings using the Ollama API.
-public struct OKGenerateEmbeddingsRequestData: Encodable {
+public struct OKEmbeddingsRequestData: Encodable {
     /// A string representing the identifier of the model.
     public let model: String
     
