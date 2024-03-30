@@ -15,7 +15,7 @@ extension OllamaKit {
     /// This method accepts ``OKGenerateEmbeddingsRequestData`` and returns an ``OKGenerateEmbeddingsResponse`` containing embeddings from the requested model.
     ///
     /// ```swift
-    /// let ollamaKit = OllamaKit(baseURL: URL(string: "http://localhost:11434")!)
+    /// let ollamaKit = OllamaKit()
     /// let requestData = OKGenerateEmbeddingsRequestData(/* parameters */)
     /// let generateEmbeddings = try await ollamaKit.generateEmbeddings(data: requestData)
     /// ```
@@ -36,7 +36,7 @@ extension OllamaKit {
     /// This method provides a reactive approach to generate embeddings. It accepts ``OKGenerateEmbeddingsRequestData`` and returns a Combine publisher that emits an ``OKGenerateEmbeddingsResponse`` upon successful retrieval.
     ///
     /// ```swift
-    /// let ollamaKit = OllamaKit(baseURL: URL(string: "http://localhost:11434")!)
+    /// let ollamaKit = OllamaKit()
     /// let requestData = OKGenerateEmbeddingsRequestData(/* parameters */)
     ///
     /// ollamaKit.generateEmbeddings(data: requestData)
