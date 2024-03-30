@@ -38,7 +38,7 @@ extension OllamaKit {
     ///
     /// ```swift
     /// let ollamaKit = OllamaKit(baseURL: URL(string: "http://localhost:11434")!)
-    /// 
+    ///
     /// ollamaKit.reachable()
     ///     .sink(receiveValue: { isReachable in
     ///         // Handle the reachability status
