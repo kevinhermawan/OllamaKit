@@ -18,8 +18,8 @@ public struct OKGenerateResponse: OKCompletionResponse, Decodable {
     /// A string containing the generated content.
     public let response: String
     
-    /// An optional array of integers representing contextual information used in the generation.
-    public let context: [Int]?
+    /// An optional array of doubles representing contextual information used in the generation.
+    public let context: [Double]?
     
     /// A boolean indicating whether the generation process is complete.
     public let done: Bool

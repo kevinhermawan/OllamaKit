@@ -51,7 +51,7 @@ final class OllamaKitTests: XCTestCase {
         
     }
     
-    func testGenerateEmbeddingsFailure() async throws {
+    func testEmbeddingsFailure() async throws {
         
     }
 }
