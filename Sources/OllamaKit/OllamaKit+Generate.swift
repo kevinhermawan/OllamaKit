@@ -34,22 +34,29 @@ extension OllamaKit {
     public func generate(data: OKGenerateRequestData) -> AsyncThrowingStream<OKGenerateResponse, Error> {
         AsyncThrowingStream { continuation in
             let request = AF.streamRequest(router.generate(data: data)).validate()
+            var buffer = Data()
             
-            request.responseStreamDecodable(of: OKGenerateResponse.self, using: decoder) { stream in
+            request.responseStream { stream in
                 switch stream.event {
                 case .stream(let result):
                     switch result {
-                    case .success(let response):
-                        continuation.yield(response)
+                    case .success(let data):
+                        buffer.append(data)
+                        
+                        while let chunk = extractNextJSON(from: &buffer) {
+                            do {
+                                let response = try decoder.decode(OKGenerateResponse.self, from: chunk)
+                                continuation.yield(response)
+                            } catch {
+                                continuation.finish(throwing: error)
+                                return
+                            }
+                        }
                     case .failure(let error):
                         continuation.finish(throwing: error)
                     }
-                case .complete(let completion):
-                    if let error = completion.error {
-                        continuation.finish(throwing: error)
-                    } else {
-                        continuation.finish()
-                    }
+                case .complete(_):
+                    continuation.finish()
                 }
             }
         }
@@ -73,26 +80,33 @@ extension OllamaKit {
     /// ```
     ///
     /// - Parameter data: The ``OKGenerateRequestData`` used to initiate the streaming from the Ollama API.
-    /// - Returns: An `AnyPublisher<OKGenerateResponse, AFError>` emitting the live stream of responses from the Ollama API.
-    public func generate(data: OKGenerateRequestData) -> AnyPublisher<OKGenerateResponse, AFError> {
-        let subject = PassthroughSubject<OKGenerateResponse, AFError>()
+    /// - Returns: An `AnyPublisher<OKGenerateResponse, Error>` emitting the live stream of responses from the Ollama API.
+    public func generate(data: OKGenerateRequestData) -> AnyPublisher<OKGenerateResponse, Error> {
+        let subject = PassthroughSubject<OKGenerateResponse, Error>()
         let request = AF.streamRequest(router.generate(data: data)).validate()
+        var buffer = Data()
         
-        request.responseStreamDecodable(of: OKGenerateResponse.self, using: decoder) { stream in
+        request.responseStream { stream in
             switch stream.event {
             case .stream(let result):
                 switch result {
-                case .success(let response):
-                    subject.send(response)
+                case .success(let data):
+                    buffer.append(data)
+                    
+                    while let chunk = extractNextJSON(from: &buffer) {
+                        do {
+                            let response = try decoder.decode(OKGenerateResponse.self, from: chunk)
+                            subject.send(response)
+                        } catch {
+                            subject.send(completion: .failure(error))
+                            return
+                        }
+                    }
                 case .failure(let error):
                     subject.send(completion: .failure(error))
                 }
-            case .complete(let completion):
-                if completion.error != nil {
-                    subject.send(completion: .failure(completion.error!))
-                } else {
-                    subject.send(completion: .finished)
-                }
+            case .complete(_):
+                subject.send(completion: .finished)
             }
         }
         
