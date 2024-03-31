@@ -38,4 +38,44 @@ public struct OllamaKit {
         
         self.router = router
     }
+    
+    internal func extractNextJSON(from buffer: inout Data) -> Data? {
+        var isEscaped = false
+        var isWithinString = false
+        var nestingDepth = 0
+        var objectStartIndex = buffer.startIndex
+        
+        for (index, byte) in buffer.enumerated() {
+            let character = Character(UnicodeScalar(byte))
+            
+            if isEscaped {
+                isEscaped = false
+            } else if character == "\\" {
+                isEscaped = true
+            } else if character == "\"" {
+                isWithinString.toggle()
+            } else if !isWithinString {
+                switch character {
+                case "{":
+                    nestingDepth += 1
+                    if nestingDepth == 1 {
+                        objectStartIndex = index
+                    }
+                case "}":
+                    nestingDepth -= 1
+                    if nestingDepth == 0 {
+                        let range = objectStartIndex..<buffer.index(after: index)
+                        let jsonObject = buffer.subdata(in: range)
+                        buffer.removeSubrange(range)
+                        
+                        return jsonObject
+                    }
+                default:
+                    break
+                }
+            }
+        }
+        
+        return nil
+    }
 }
