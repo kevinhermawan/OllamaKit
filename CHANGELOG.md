@@ -1,3 +1,13 @@
+# 4.0.0
+
+## What's Changed
+
+- chore: removes Playground by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/14
+- feat: adds initializer with default base URL by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/15
+- refactor: renames `generateEmbeddings` to `embeddings` by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/16
+- feat: adds async stream for `chat` and `generate` by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/17
+- fix: response serialization failed by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/18
+
 # 3.0.2
 
 ## What's Changed
