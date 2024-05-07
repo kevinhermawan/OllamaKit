@@ -1,3 +1,9 @@
+# 4.1.0
+
+## What's Changed
+
+- refactor: changes type from `Double` to `Int` in `context` by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/19
+
 # 4.0.0
 
 ## What's Changed
