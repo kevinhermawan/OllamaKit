@@ -1,3 +1,18 @@
+# 5.0.0
+
+## What's Changed
+
+- refactor: removes Alamofire from `copyModel` by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/20
+- refactor: removes Alamofire from `deleteModel` by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/21
+- refactor: removes Alamofire from `embeddings` by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/22
+- refactor: removes Alamofire from `modelInfo` by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/23
+- refactor: removes Alamofire from `models` by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/24
+- refactor: removes Alamofire from `reachable` by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/25
+- refactor: removes Alamofire from `chat` and `generate` by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/26
+- refactor: removes Alamofire from `OKRouter` by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/27
+- chore: adds Playground by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/28
+- docs: improves overview text by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/29
+
 # 4.1.0
 
 ## What's Changed
