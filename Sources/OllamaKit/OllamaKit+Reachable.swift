@@ -5,7 +5,6 @@
 //  Created by Kevin Hermawan on 01/01/24.
 //
 
-import Alamofire
 import Combine
 import Foundation
 
@@ -21,10 +20,9 @@ extension OllamaKit {
     ///
     /// - Returns: `true` if the Ollama API is reachable, `false` otherwise.
     public func reachable() async -> Bool {
-        let request = AF.request(router.root).validate()
-        
         do {
-            _ = try await request.serializingData().value
+            let request = try OKRouter.root.asURLRequest()
+            try await OKHTTPClient.shared.sendRequest(for: request)
             
             return true
         } catch {
@@ -48,11 +46,15 @@ extension OllamaKit {
     ///
     /// - Returns: A `AnyPublisher<Bool, Never>` that emits `true` if the API is reachable, `false` otherwise.
     public func reachable() -> AnyPublisher<Bool, Never> {
-        let request = AF.request(router.root).validate()
-        
-        return request.publishData().value()
-            .map { _ in true }
-            .replaceError(with: false)
-            .eraseToAnyPublisher()
+        do {
+            let request = try OKRouter.root.asURLRequest()
+            
+            return OKHTTPClient.shared.sendRequest(for: request)
+                .map { _ in true }
+                .replaceError(with: false)
+                .eraseToAnyPublisher()
+        } catch {
+            return Just(false).eraseToAnyPublisher()
+        }
     }
 }

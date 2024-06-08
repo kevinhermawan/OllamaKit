@@ -5,7 +5,6 @@
 //  Created by Kevin Hermawan on 01/01/24.
 //
 
-import Alamofire
 import Combine
 import Foundation
 
@@ -49,14 +48,12 @@ extension OllamaKit {
     /// - Parameter data: The ``OKModelInfoRequestData`` used to query the API for specific model information.
     /// - Returns: A `AnyPublisher<OKModelInfoResponse, Error>` that emits detailed information about the model.
     public func modelInfo(data: OKModelInfoRequestData) -> AnyPublisher<OKModelInfoResponse, Error> {
-        let request: URLRequest
-        
         do {
-            request = try OKRouter.modelInfo(data: data).asURLRequest()
+            let request = try OKRouter.modelInfo(data: data).asURLRequest()
+            
+            return OKHTTPClient.shared.sendRequest(for: request, with: OKModelInfoResponse.self)
         } catch {
             return Fail(error: error).eraseToAnyPublisher()
         }
-        
-        return OKHTTPClient.shared.sendRequest(for: request, with: OKModelInfoResponse.self)
     }
 }
