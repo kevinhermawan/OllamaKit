@@ -24,11 +24,9 @@ extension OllamaKit {
     /// - Returns: An ``OKModelInfoResponse`` containing detailed information about the model.
     /// - Throws: An error if the request fails or the response can't be decoded.
     public func modelInfo(data: OKModelInfoRequestData) async throws -> OKModelInfoResponse {
-        let request = AF.request(router.modelInfo(data: data)).validate()
-        let response = request.serializingDecodable(OKModelInfoResponse.self, decoder: decoder)
-        let value = try await response.value
+        let request = try OKRouter.modelInfo(data: data).asURLRequest()
         
-        return value
+        return try await OKHTTPClient.shared.sendRequest(for: request, with: OKModelInfoResponse.self)
     }
     
     /// Retrieves detailed information for a specific model from the Ollama API as a Combine publisher.
@@ -49,12 +47,16 @@ extension OllamaKit {
     /// ```
     ///
     /// - Parameter data: The ``OKModelInfoRequestData`` used to query the API for specific model information.
-    /// - Returns: A `AnyPublisher<OKModelInfoResponse, AFError>` that emits detailed information about the model.
-    public func modelInfo(data: OKModelInfoRequestData) -> AnyPublisher<OKModelInfoResponse, AFError> {
-        let request = AF.request(router.modelInfo(data: data)).validate()
+    /// - Returns: A `AnyPublisher<OKModelInfoResponse, Error>` that emits detailed information about the model.
+    public func modelInfo(data: OKModelInfoRequestData) -> AnyPublisher<OKModelInfoResponse, Error> {
+        let request: URLRequest
         
-        return request
-            .publishDecodable(type: OKModelInfoResponse.self, decoder: decoder).value()
-            .eraseToAnyPublisher()
+        do {
+            request = try OKRouter.modelInfo(data: data).asURLRequest()
+        } catch {
+            return Fail(error: error).eraseToAnyPublisher()
+        }
+        
+        return OKHTTPClient.shared.sendRequest(for: request, with: OKModelInfoResponse.self)
     }
 }
