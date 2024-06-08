@@ -5,7 +5,6 @@
 //  Created by Kevin Hermawan on 01/01/24.
 //
 
-import Alamofire
 import Combine
 import Foundation
 
@@ -23,8 +22,9 @@ extension OllamaKit {
     /// - Parameter data: The ``OKCopyModelRequestData`` containing the details needed to copy the model.
     /// - Throws: An error if the request to copy the model fails.
     public func copyModel(data: OKCopyModelRequestData) async throws -> Void {
-        let request = AF.request(router.copyModel(data: data)).validate()
-        _ = try await request.serializingData().response.result.get()
+        let request = try OKRouter.copyModel(data: data).asURLRequest()
+        
+        try await OKHTTPClient.shared.sendRequest(for: request)
     }
     
     /// Requests the Ollama API to copy a model, returning the result as a Combine publisher.
@@ -47,10 +47,14 @@ extension OllamaKit {
     /// - Parameter data: The ``OKCopyModelRequestData`` used to request the model copy.
     /// - Returns: A `AnyPublisher<Void, Error>` that completes when the copy operation is done.
     public func copyModel(data: OKCopyModelRequestData) -> AnyPublisher<Void, Error> {
-        let request = AF.request(router.copyModel(data: data)).validate()
+        let request: URLRequest
         
-        return request.publishData()
-            .tryMap { _ in Void() }
-            .eraseToAnyPublisher()
+        do {
+            request = try OKRouter.copyModel(data: data).asURLRequest()
+        } catch {
+            return Fail(error: error).eraseToAnyPublisher()
+        }
+        
+        return OKHTTPClient.shared.sendRequest(for: request)
     }
 }
