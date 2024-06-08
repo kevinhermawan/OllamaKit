@@ -5,7 +5,6 @@
 //  Created by Kevin Hermawan on 01/01/24.
 //
 
-import Alamofire
 import Combine
 import Foundation
 
@@ -22,11 +21,9 @@ extension OllamaKit {
     /// - Returns: An ``OKModelResponse`` object listing the available models.
     /// - Throws: An error if the request fails or the response can't be decoded.
     public func models() async throws -> OKModelResponse {
-        let request = AF.request(router.models).validate()
-        let response = request.serializingDecodable(OKModelResponse.self, decoder: decoder)
-        let value = try await response.value
+        let request = try OKRouter.models.asURLRequest()
         
-        return value
+        return try await OKHTTPClient.shared.sendRequest(for: request, with: OKModelResponse.self)
     }
     
     /// Retrieves a list of available models from the Ollama API as a Combine publisher.
@@ -45,12 +42,16 @@ extension OllamaKit {
     ///     .store(in: &cancellables)
     /// ```
     ///
-    /// - Returns: A `AnyPublisher<OKModelResponse, AFError>` that emits the list of available models.
-    public func models() -> AnyPublisher<OKModelResponse, AFError> {
-        let request = AF.request(router.models).validate()
+    /// - Returns: A `AnyPublisher<OKModelResponse, Error>` that emits the list of available models.
+    public func models() -> AnyPublisher<OKModelResponse, Error> {
+        let request: URLRequest
         
-        return request
-            .publishDecodable(type: OKModelResponse.self, decoder: decoder).value()
-            .eraseToAnyPublisher()
+        do {
+            request = try OKRouter.models.asURLRequest()
+        } catch {
+            return Fail(error: error).eraseToAnyPublisher()
+        }
+        
+        return OKHTTPClient.shared.sendRequest(for: request, with: OKModelResponse.self)
     }
 }
