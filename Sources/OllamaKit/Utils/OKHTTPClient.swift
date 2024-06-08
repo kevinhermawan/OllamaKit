@@ -9,7 +9,27 @@ import Combine
 import Foundation
 
 internal struct OKHTTPClient {
+    private let decoder: JSONDecoder = .default
+    
     static let shared = OKHTTPClient()
+    
+    func sendRequest(for request: URLRequest) async throws -> Void {
+        let (_, response) = try await URLSession.shared.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+            throw URLError(.badServerResponse)
+        }
+    }
+    
+    func sendRequest<T: Decodable>(for request: URLRequest, with responseType: T.Type) async throws -> T {
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+            throw URLError(.badServerResponse)
+        }
+        
+        return try decoder.decode(T.self, from: data)
+    }
     
     func sendRequest<T: Decodable>(for request: URLRequest, with responseType: T.Type) -> AnyPublisher<T, Error> {
         return URLSession.shared.dataTaskPublisher(for: request)
@@ -20,7 +40,7 @@ internal struct OKHTTPClient {
                 
                 return data
             }
-            .decode(type: T.self, decoder: JSONDecoder())
+            .decode(type: T.self, decoder: decoder)
             .eraseToAnyPublisher()
     }
     
@@ -34,14 +54,6 @@ internal struct OKHTTPClient {
                 return Void()
             }
             .eraseToAnyPublisher()
-    }
-    
-    func sendRequest(for request: URLRequest) async throws -> Void {
-        let (_, response) = try await URLSession.shared.data(for: request)
-        
-        guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-            throw URLError(.badServerResponse)
-        }
     }
     
     func streamRequest<T: Decodable>(for request: URLRequest, with responseType: T.Type) -> AsyncThrowingStream<T, Error> {
@@ -62,7 +74,7 @@ internal struct OKHTTPClient {
                 
                 while let chunk = extractNextJSON(from: &buffer) {
                     do {
-                        let response = try JSONDecoder().decode(T.self, from: chunk)
+                        let response = try decoder.decode(T.self, from: chunk)
                         continuation.yield(response)
                     } catch {
                         continuation.finish(throwing: error)
@@ -72,6 +84,7 @@ internal struct OKHTTPClient {
                 
                 continuation.finish()
             }
+            
             task.resume()
         }
     }
@@ -95,7 +108,7 @@ internal struct OKHTTPClient {
             
             while let chunk = extractNextJSON(from: &buffer) {
                 do {
-                    let response = try JSONDecoder().decode(T.self, from: chunk)
+                    let response = try decoder.decode(T.self, from: chunk)
                     subject.send(response)
                 } catch {
                     subject.send(completion: .failure(error))

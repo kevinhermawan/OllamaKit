@@ -5,7 +5,6 @@
 //  Created by Paul Thrasher on 02/09/24.
 //
 
-import Alamofire
 import Combine
 import Foundation
 
@@ -24,11 +23,9 @@ extension OllamaKit {
     /// - Returns: An ``OKEmbeddingsResponse`` containing the embeddings from the model.
     /// - Throws: An error if the request fails or the response can't be decoded.
     public func embeddings(data: OKEmbeddingsRequestData) async throws -> OKEmbeddingsResponse {
-        let request = AF.request(router.embeddings(data: data)).validate()
-        let response = request.serializingDecodable(OKEmbeddingsResponse.self, decoder: decoder)
-        let value = try await response.value
+        let request = try OKRouter.embeddings(data: data).asURLRequest()
         
-        return value
+        return try await OKHTTPClient.shared.sendRequest(for: request, with: OKEmbeddingsResponse.self)
     }
     
     /// Retrieves embeddings from a specific model from the Ollama API as a Combine publisher.
@@ -50,11 +47,15 @@ extension OllamaKit {
     ///
     /// - Parameter data: The ``OKEmbeddingsRequestData`` used to query the API for embeddings from a specific model.
     /// - Returns: A `AnyPublisher<OKEmbeddingsResponse, AFError>` that emits embeddings.
-    public func embeddings(data: OKEmbeddingsRequestData) -> AnyPublisher<OKEmbeddingsResponse, AFError> {
-        let request = AF.request(router.embeddings(data: data)).validate()
+    public func embeddings(data: OKEmbeddingsRequestData) -> AnyPublisher<OKEmbeddingsResponse, Error> {
+        let request: URLRequest
         
-        return request
-            .publishDecodable(type: OKEmbeddingsResponse.self, decoder: decoder).value()
-            .eraseToAnyPublisher()
+        do {
+            request = try OKRouter.embeddings(data: data).asURLRequest()
+        } catch {
+            return Fail(error: error).eraseToAnyPublisher()
+        }
+        
+        return OKHTTPClient.shared.sendRequest(for: request, with: OKEmbeddingsResponse.self)
     }
 }
