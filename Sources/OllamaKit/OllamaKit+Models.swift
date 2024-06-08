@@ -23,7 +23,7 @@ extension OllamaKit {
     public func models() async throws -> OKModelResponse {
         let request = try OKRouter.models.asURLRequest()
         
-        return try await OKHTTPClient.shared.sendRequest(for: request, with: OKModelResponse.self)
+        return try await OKHTTPClient.shared.send(request: request, with: OKModelResponse.self)
     }
     
     /// Retrieves a list of available models from the Ollama API as a Combine publisher.
@@ -47,7 +47,7 @@ extension OllamaKit {
         do {
             let request = try OKRouter.models.asURLRequest()
             
-            return OKHTTPClient.shared.sendRequest(for: request, with: OKModelResponse.self)
+            return OKHTTPClient.shared.send(request: request, with: OKModelResponse.self)
         } catch {
             return Fail(error: error).eraseToAnyPublisher()
         }

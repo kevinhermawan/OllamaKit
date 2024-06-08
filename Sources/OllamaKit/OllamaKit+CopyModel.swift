@@ -24,7 +24,7 @@ extension OllamaKit {
     public func copyModel(data: OKCopyModelRequestData) async throws -> Void {
         let request = try OKRouter.copyModel(data: data).asURLRequest()
         
-        try await OKHTTPClient.shared.sendRequest(for: request)
+        try await OKHTTPClient.shared.send(request: request)
     }
     
     /// Requests the Ollama API to copy a model, returning the result as a Combine publisher.
@@ -50,7 +50,7 @@ extension OllamaKit {
         do {
             let request = try OKRouter.copyModel(data: data).asURLRequest()
             
-            return OKHTTPClient.shared.sendRequest(for: request)
+            return OKHTTPClient.shared.send(request: request)
         } catch {
             return Fail(error: error).eraseToAnyPublisher()
         }

@@ -25,7 +25,7 @@ extension OllamaKit {
     public func embeddings(data: OKEmbeddingsRequestData) async throws -> OKEmbeddingsResponse {
         let request = try OKRouter.embeddings(data: data).asURLRequest()
         
-        return try await OKHTTPClient.shared.sendRequest(for: request, with: OKEmbeddingsResponse.self)
+        return try await OKHTTPClient.shared.send(request: request, with: OKEmbeddingsResponse.self)
     }
     
     /// Retrieves embeddings from a specific model from the Ollama API as a Combine publisher.
@@ -46,12 +46,12 @@ extension OllamaKit {
     /// ```
     ///
     /// - Parameter data: The ``OKEmbeddingsRequestData`` used to query the API for embeddings from a specific model.
-    /// - Returns: A `AnyPublisher<OKEmbeddingsResponse, AFError>` that emits embeddings.
+    /// - Returns: A `AnyPublisher<OKEmbeddingsResponse, Error>` that emits embeddings.
     public func embeddings(data: OKEmbeddingsRequestData) -> AnyPublisher<OKEmbeddingsResponse, Error> {
         do {
             let request = try OKRouter.embeddings(data: data).asURLRequest()
             
-            return OKHTTPClient.shared.sendRequest(for: request, with: OKEmbeddingsResponse.self)
+            return OKHTTPClient.shared.send(request: request, with: OKEmbeddingsResponse.self)
         } catch {
             return Fail(error: error).eraseToAnyPublisher()
         }
