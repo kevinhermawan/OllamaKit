@@ -22,7 +22,7 @@ extension OllamaKit {
     public func reachable() async -> Bool {
         do {
             let request = try OKRouter.root.asURLRequest()
-            try await OKHTTPClient.shared.sendRequest(for: request)
+            try await OKHTTPClient.shared.send(request: request)
             
             return true
         } catch {
@@ -49,7 +49,7 @@ extension OllamaKit {
         do {
             let request = try OKRouter.root.asURLRequest()
             
-            return OKHTTPClient.shared.sendRequest(for: request)
+            return OKHTTPClient.shared.send(request: request)
                 .map { _ in true }
                 .replaceError(with: false)
                 .eraseToAnyPublisher()

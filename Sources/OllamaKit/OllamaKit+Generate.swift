@@ -5,7 +5,6 @@
 //  Created by Kevin Hermawan on 02/01/24.
 //
 
-import Alamofire
 import Combine
 import Foundation
 
@@ -32,32 +31,13 @@ extension OllamaKit {
     /// - Parameter data: The ``OKGenerateRequestData`` used to initiate the streaming from the Ollama API.
     /// - Returns: An `AsyncThrowingStream<OKGenerateResponse, Error>` emitting the live stream of responses from the Ollama API.
     public func generate(data: OKGenerateRequestData) -> AsyncThrowingStream<OKGenerateResponse, Error> {
-        AsyncThrowingStream { continuation in
-            let request = AF.streamRequest(router.generate(data: data)).validate()
-            var buffer = Data()
+        do {
+            let request = try OKRouter.generate(data: data).asURLRequest()
             
-            request.responseStream { stream in
-                switch stream.event {
-                case .stream(let result):
-                    switch result {
-                    case .success(let data):
-                        buffer.append(data)
-                        
-                        while let chunk = extractNextJSON(from: &buffer) {
-                            do {
-                                let response = try decoder.decode(OKGenerateResponse.self, from: chunk)
-                                continuation.yield(response)
-                            } catch {
-                                continuation.finish(throwing: error)
-                                return
-                            }
-                        }
-                    case .failure(let error):
-                        continuation.finish(throwing: error)
-                    }
-                case .complete(_):
-                    continuation.finish()
-                }
+            return OKHTTPClient.shared.stream(request: request, with: OKGenerateResponse.self)
+        } catch {
+            return AsyncThrowingStream { continuation in
+                continuation.finish(throwing: error)
             }
         }
     }
@@ -82,34 +62,12 @@ extension OllamaKit {
     /// - Parameter data: The ``OKGenerateRequestData`` used to initiate the streaming from the Ollama API.
     /// - Returns: An `AnyPublisher<OKGenerateResponse, Error>` emitting the live stream of responses from the Ollama API.
     public func generate(data: OKGenerateRequestData) -> AnyPublisher<OKGenerateResponse, Error> {
-        let subject = PassthroughSubject<OKGenerateResponse, Error>()
-        let request = AF.streamRequest(router.generate(data: data)).validate()
-        var buffer = Data()
-        
-        request.responseStream { stream in
-            switch stream.event {
-            case .stream(let result):
-                switch result {
-                case .success(let data):
-                    buffer.append(data)
-                    
-                    while let chunk = extractNextJSON(from: &buffer) {
-                        do {
-                            let response = try decoder.decode(OKGenerateResponse.self, from: chunk)
-                            subject.send(response)
-                        } catch {
-                            subject.send(completion: .failure(error))
-                            return
-                        }
-                    }
-                case .failure(let error):
-                    subject.send(completion: .failure(error))
-                }
-            case .complete(_):
-                subject.send(completion: .finished)
-            }
+        do {
+            let request = try OKRouter.generate(data: data).asURLRequest()
+            
+            return OKHTTPClient.shared.stream(request: request, with: OKGenerateResponse.self)
+        } catch {
+            return Fail(error: error).eraseToAnyPublisher()
         }
-        
-        return subject.eraseToAnyPublisher()
     }
 }

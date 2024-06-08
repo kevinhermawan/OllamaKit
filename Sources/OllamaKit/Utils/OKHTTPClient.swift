@@ -10,33 +10,60 @@ import Foundation
 
 internal struct OKHTTPClient {
     private let decoder: JSONDecoder = .default
-    
     static let shared = OKHTTPClient()
-    
-    func sendRequest(for request: URLRequest) async throws -> Void {
+}
+
+internal extension OKHTTPClient {
+    func send(request: URLRequest) async throws -> Void {
         let (_, response) = try await URLSession.shared.data(for: request)
         
-        guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-            throw URLError(.badServerResponse)
-        }
+        try validate(response: response)
     }
     
-    func sendRequest<T: Decodable>(for request: URLRequest, with responseType: T.Type) async throws -> T {
+    func send<T: Decodable>(request: URLRequest, with responseType: T.Type) async throws -> T {
         let (data, response) = try await URLSession.shared.data(for: request)
-        
-        guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-            throw URLError(.badServerResponse)
-        }
+        try validate(response: response)
         
         return try decoder.decode(T.self, from: data)
     }
     
-    func sendRequest<T: Decodable>(for request: URLRequest, with responseType: T.Type) -> AnyPublisher<T, Error> {
+    func stream<T: Decodable>(request: URLRequest, with responseType: T.Type) -> AsyncThrowingStream<T, Error> {
+        return AsyncThrowingStream { continuation in
+            Task {
+                do {
+                    let (bytes, response) = try await URLSession.shared.bytes(for: request)
+                    try validate(response: response)
+                    
+                    var buffer = Data()
+                    
+                    for try await byte in bytes {
+                        buffer.append(byte)
+                        
+                        while let chunk = self.extractNextJSON(from: &buffer) {
+                            do {
+                                let decodedObject = try self.decoder.decode(T.self, from: chunk)
+                                continuation.yield(decodedObject)
+                            } catch {
+                                continuation.finish(throwing: error)
+                                return
+                            }
+                        }
+                    }
+                    
+                    continuation.finish()
+                } catch {
+                    continuation.finish(throwing: error)
+                }
+            }
+        }
+    }
+}
+
+internal extension OKHTTPClient {
+    func send<T: Decodable>(request: URLRequest, with responseType: T.Type) -> AnyPublisher<T, Error> {
         return URLSession.shared.dataTaskPublisher(for: request)
             .tryMap { data, response in
-                guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-                    throw URLError(.badServerResponse)
-                }
+                try self.validate(response: response)
                 
                 return data
             }
@@ -44,84 +71,51 @@ internal struct OKHTTPClient {
             .eraseToAnyPublisher()
     }
     
-    func sendRequest(for request: URLRequest) -> AnyPublisher<Void, Error> {
+    func send(request: URLRequest) -> AnyPublisher<Void, Error> {
         return URLSession.shared.dataTaskPublisher(for: request)
-            .tryMap { data, response in
-                guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-                    throw URLError(.badServerResponse)
-                }
+            .tryMap { _, response in
+                try self.validate(response: response)
                 
-                return Void()
+                return ()
             }
             .eraseToAnyPublisher()
     }
     
-    func streamRequest<T: Decodable>(for request: URLRequest, with responseType: T.Type) -> AsyncThrowingStream<T, Error> {
-        return AsyncThrowingStream { continuation in
-            let task = URLSession.shared.dataTask(with: request) { data, response, error in
-                if let error = error {
-                    continuation.finish(throwing: error)
-                    return
-                }
-                
-                guard let data = data else {
-                    continuation.finish(throwing: URLError(.badServerResponse))
-                    return
-                }
-                
-                var buffer = Data()
-                buffer.append(data)
-                
-                while let chunk = extractNextJSON(from: &buffer) {
-                    do {
-                        let response = try decoder.decode(T.self, from: chunk)
-                        continuation.yield(response)
-                    } catch {
-                        continuation.finish(throwing: error)
-                        return
-                    }
-                }
-                
-                continuation.finish()
-            }
-            
-            task.resume()
-        }
-    }
-    
-    func streamRequest<T: Decodable>(for request: URLRequest, with responseType: T.Type) -> AnyPublisher<T, Error> {
-        let subject = PassthroughSubject<T, Error>()
+    func stream<T: Decodable>(request: URLRequest, with responseType: T.Type) -> AnyPublisher<T, Error> {
+        let delegate = StreamingDelegate()
+        let session = URLSession(configuration: .default, delegate: delegate, delegateQueue: .main)
         
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                subject.send(completion: .failure(error))
-                return
-            }
-            
-            guard let data = data else {
-                subject.send(completion: .failure(URLError(.badServerResponse)))
-                return
-            }
-            
-            var buffer = Data()
-            buffer.append(data)
-            
-            while let chunk = extractNextJSON(from: &buffer) {
-                do {
-                    let response = try decoder.decode(T.self, from: chunk)
-                    subject.send(response)
-                } catch {
-                    subject.send(completion: .failure(error))
-                    return
-                }
-            }
-            
-            subject.send(completion: .finished)
-        }
-        
+        let task = session.dataTask(with: request)
         task.resume()
         
-        return subject.eraseToAnyPublisher()
+        var buffer = Data()
+        
+        return delegate.publisher()
+            .tryMap { newData -> [T] in
+                buffer.append(newData)
+                var decodedObjects: [T] = []
+                
+                while let chunk = self.extractNextJSON(from: &buffer) {
+                    let decodedObject = try self.decoder.decode(T.self, from: chunk)
+                    decodedObjects.append(decodedObject)
+                }
+                
+                return decodedObjects
+            }
+            .flatMap { decodedObjects -> AnyPublisher<T, Error> in
+                Publishers.Sequence(sequence: decodedObjects)
+                    .setFailureType(to: Error.self)
+                    .eraseToAnyPublisher()
+            }
+            .eraseToAnyPublisher()
+    }
+}
+
+private extension OKHTTPClient {
+    func validate(response: URLResponse) throws {
+        guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+            throw URLError(.badServerResponse)
+        }
     }
     
     func extractNextJSON(from buffer: inout Data) -> Data? {

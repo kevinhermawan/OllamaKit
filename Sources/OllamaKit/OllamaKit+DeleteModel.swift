@@ -24,7 +24,7 @@ extension OllamaKit {
     public func deleteModel(data: OKDeleteModelRequestData) async throws -> Void {
         let request = try OKRouter.deleteModel(data: data).asURLRequest()
         
-        try await OKHTTPClient.shared.sendRequest(for: request)
+        try await OKHTTPClient.shared.send(request: request)
     }
     
     /// Requests the Ollama API to delete a specific model, returning the result as a Combine publisher.
@@ -50,7 +50,7 @@ extension OllamaKit {
         do {
             let request = try OKRouter.deleteModel(data: data).asURLRequest()
             
-            return OKHTTPClient.shared.sendRequest(for: request)
+            return OKHTTPClient.shared.send(request: request)
         } catch {
             return Fail(error: error).eraseToAnyPublisher()
         }
