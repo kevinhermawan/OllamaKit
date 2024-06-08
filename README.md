@@ -2,15 +2,15 @@
 
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fkevinhermawan%2FOllamaKit%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/kevinhermawan/OllamaKit) [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fkevinhermawan%2FOllamaKit%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/kevinhermawan/OllamaKit)
 
-A Swift library to interact with the [Ollama](https://github.com/jmorganca/ollama) API
+[Ollama](https://github.com/ollama/ollama) client for Swift
 
 ## Overview
 
-`OllamaKit` is a Swift library crafted to streamline interactions with the Ollama API. It encapsulates the complexities of network communication and data processing, providing a simplified and efficient interface for Swift applications to communicate with the Ollama API.
+`OllamaKit` is a Swift library that streamlines interactions with the Ollama API. It handles the complexities of network communication and data processing behind the scenes, providing a simple and efficient way to integrate the Ollama API.
 
 ## Primary Use
 
-`OllamaKit` is primarily designed for use within [Ollamac](https://github.com/kevinhermawan/Ollamac), a macOS app for interacting with the Ollama models. While the library offers comprehensive functionalities for Ollama API interaction, its features and optimizations are specifically aligned with the requirements of `Ollamac`.
+`OllamaKit` is primarily developed to power the [Ollamac](https://github.com/kevinhermawan/Ollamac), a macOS app for interacting with Ollama models. Although the library provides robust capabilities for integrating the Ollama API, its features and optimizations are tailored specifically to meet the needs of the Ollamac.
 
 ## Documentation
 
@@ -22,7 +22,7 @@ You can add `OllamaKit` as a dependency to your project using Swift Package Mana
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/kevinhermawan/OllamaKit.git", .upToNextMajor(from: "1.0.0"))
+    .package(url: "https://github.com/kevinhermawan/OllamaKit.git", .upToNextMajor(from: "5.0.0"))
 ]
 ```
 
@@ -33,10 +33,6 @@ Alternatively, in Xcode:
 3. Enter the repository URL: `https://github.com/kevinhermawan/OllamaKit.git`
 4. Choose the version you want to add. You probably want to add the latest version.
 5. Click `Add Package`.
-
-## Acknowledgements
-
-- [Alamofire](https://github.com/Alamofire/Alamofire)
 
 ## Used By
 

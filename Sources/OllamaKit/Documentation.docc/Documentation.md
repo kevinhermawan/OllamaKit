@@ -1,7 +1,7 @@
 # ``OllamaKit``
 
-A Swift library for interacting with the Ollama API.
+Ollama client for Swift
 
 ## Overview
 
-``OllamaKit`` is a Swift library crafted to streamline interactions with the Ollama API. It encapsulates the complexities of network communication and data processing, providing a simplified and efficient interface for Swift applications to communicate with the Ollama API.
+``OllamaKit`` is a Swift library that streamlines interactions with the Ollama API. It handles the complexities of network communication and data processing behind the scenes, providing a simple and efficient way to integrate the Ollama API.
