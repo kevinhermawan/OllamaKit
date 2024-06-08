@@ -5,7 +5,6 @@
 //  Created by Kevin Hermawan on 01/01/24.
 //
 
-import Alamofire
 import Combine
 import Foundation
 
@@ -23,8 +22,9 @@ extension OllamaKit {
     /// - Parameter data: The ``OKDeleteModelRequestData`` containing the details needed to delete the model.
     /// - Throws: An error if the request to delete the model fails.
     public func deleteModel(data: OKDeleteModelRequestData) async throws -> Void {
-        let request = AF.request(router.deleteModel(data: data)).validate()
-        _ = try await request.serializingData().response.result.get()
+        let request = try OKRouter.deleteModel(data: data).asURLRequest()
+        
+        try await OKHTTPClient.shared.sendRequest(for: request)
     }
     
     /// Requests the Ollama API to delete a specific model, returning the result as a Combine publisher.
@@ -47,10 +47,14 @@ extension OllamaKit {
     /// - Parameter data: The ``OKDeleteModelRequestData`` used to request the model deletion.
     /// - Returns: A `AnyPublisher<Void, Error>` that completes when the deletion operation is done.
     public func deleteModel(data: OKDeleteModelRequestData) -> AnyPublisher<Void, Error> {
-        let request = AF.request(router.deleteModel(data: data)).validate()
+        let request: URLRequest
         
-        return request.publishData()
-            .tryMap { _ in Void() }
-            .eraseToAnyPublisher()
+        do {
+            request = try OKRouter.deleteModel(data: data).asURLRequest()
+        } catch {
+            return Fail(error: error).eraseToAnyPublisher()
+        }
+        
+        return OKHTTPClient.shared.sendRequest(for: request)
     }
 }
