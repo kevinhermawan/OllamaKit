@@ -47,14 +47,12 @@ extension OllamaKit {
     /// - Parameter data: The ``OKCopyModelRequestData`` used to request the model copy.
     /// - Returns: A `AnyPublisher<Void, Error>` that completes when the copy operation is done.
     public func copyModel(data: OKCopyModelRequestData) -> AnyPublisher<Void, Error> {
-        let request: URLRequest
-        
         do {
-            request = try OKRouter.copyModel(data: data).asURLRequest()
+            let request = try OKRouter.copyModel(data: data).asURLRequest()
+            
+            return OKHTTPClient.shared.sendRequest(for: request)
         } catch {
             return Fail(error: error).eraseToAnyPublisher()
         }
-        
-        return OKHTTPClient.shared.sendRequest(for: request)
     }
 }

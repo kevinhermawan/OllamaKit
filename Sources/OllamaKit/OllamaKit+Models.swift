@@ -44,14 +44,12 @@ extension OllamaKit {
     ///
     /// - Returns: A `AnyPublisher<OKModelResponse, Error>` that emits the list of available models.
     public func models() -> AnyPublisher<OKModelResponse, Error> {
-        let request: URLRequest
-        
         do {
-            request = try OKRouter.models.asURLRequest()
+            let request = try OKRouter.models.asURLRequest()
+            
+            return OKHTTPClient.shared.sendRequest(for: request, with: OKModelResponse.self)
         } catch {
             return Fail(error: error).eraseToAnyPublisher()
         }
-        
-        return OKHTTPClient.shared.sendRequest(for: request, with: OKModelResponse.self)
     }
 }
