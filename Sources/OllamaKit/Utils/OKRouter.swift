@@ -5,7 +5,6 @@
 //  Created by Kevin Hermawan on 10/11/23.
 //
 
-import Alamofire
 import Foundation
 
 internal enum OKRouter {
@@ -41,38 +40,39 @@ internal enum OKRouter {
         }
     }
     
-    internal var method: HTTPMethod {
+    internal var method: String {
         switch self {
         case .root:
-            return .head
+            return "HEAD"
         case .models:
-            return .get
+            return "GET"
         case .modelInfo:
-            return .post
+            return "POST"
         case .generate:
-            return .post
+            return "POST"
         case .chat:
-            return .post
+            return "POST"
         case .copyModel:
-            return .post
+            return "POST"
         case .deleteModel:
-            return .delete
+            return "DELETE"
         case .embeddings:
-            return .post
+            return "POST"
         }
     }
     
-    internal var headers: HTTPHeaders {
+    internal var headers: [String: String] {
         ["Content-Type": "application/json"]
     }
 }
 
-extension OKRouter: URLRequestConvertible {
+extension OKRouter {
     func asURLRequest() throws -> URLRequest {
         let url = OKRouter.baseURL.appendingPathComponent(path)
+        
         var request = URLRequest(url: url)
-        request.method = method
-        request.headers = headers
+        request.httpMethod = method
+        request.allHTTPHeaderFields = headers
         
         switch self {
         case .modelInfo(let data):

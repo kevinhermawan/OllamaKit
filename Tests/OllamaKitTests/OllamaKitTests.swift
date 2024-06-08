@@ -1,6 +1,5 @@
 import XCTest
 @testable import OllamaKit
-import Alamofire
 
 final class OllamaKitTests: XCTestCase {
     override func setUp() {
