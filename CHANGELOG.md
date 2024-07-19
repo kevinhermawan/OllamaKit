@@ -1,3 +1,9 @@
+# 5.0.1
+
+## What's Changed
+
+- chore: changes minimum macOS version to 12 by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/30
+
 # 5.0.0
 
 ## What's Changed
