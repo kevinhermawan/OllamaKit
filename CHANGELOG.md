@@ -1,3 +1,9 @@
+# 5.0.2
+
+## What's Changed
+
+- feat: adds tool calling support by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/31
+
 # 5.0.1
 
 ## What's Changed
