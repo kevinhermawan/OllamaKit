@@ -17,13 +17,17 @@ public struct OKChatRequestData: Encodable {
     /// An array of ``Message`` instances representing the content to be sent to the Ollama API.
     public let messages: [Message]
     
+    /// An optional array of `OKJSONValue` representing the tools available for tool calling in the chat.
+    public let tools: [OKJSONValue]?
+    
     /// Optional ``OKCompletionOptions`` providing additional configuration for the chat request.
     public var options: OKCompletionOptions?
     
-    public init(model: String, messages: [Message]) {
-        self.stream = true
+    public init(model: String, messages: [Message], tools: [OKJSONValue]? = nil) {
+        self.stream = tools == nil
         self.model = model
         self.messages = messages
+        self.tools = tools
     }
     
     /// A structure that represents a single message in the chat request.

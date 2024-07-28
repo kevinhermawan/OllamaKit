@@ -20,6 +20,7 @@
 		0A5648E82C14E00E008FB5F6 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5648E72C14E00E008FB5F6 /* ChatView.swift */; };
 		0A5648EA2C1504CD008FB5F6 /* GenerateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5648E92C1504CD008FB5F6 /* GenerateView.swift */; };
 		0A5648EE2C150C66008FB5F6 /* OllamaKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0A5648ED2C150C66008FB5F6 /* OllamaKit */; };
+		0A7B752D2C55E79400624336 /* ChatWithToolsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7B752C2C55E79400624336 /* ChatWithToolsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		0A5648E72C14E00E008FB5F6 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		0A5648E92C1504CD008FB5F6 /* GenerateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateView.swift; sourceTree = "<group>"; };
 		0A5648EC2C150C3A008FB5F6 /* OllamaKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = OllamaKit; path = ..; sourceTree = "<group>"; };
+		0A7B752C2C55E79400624336 /* ChatWithToolsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatWithToolsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,10 +73,10 @@
 		0A5648C22C1468E0008FB5F6 /* OKPlayground */ = {
 			isa = PBXGroup;
 			children = (
-				0A5648E02C14C7D6008FB5F6 /* ViewModels */,
 				0A5648C32C1468E0008FB5F6 /* OKPlaygroundApp.swift */,
 				0A5648C92C1468E1008FB5F6 /* Preview Content */,
 				0A5648D92C146AAD008FB5F6 /* Resources */,
+				0A5648E02C14C7D6008FB5F6 /* ViewModels */,
 				0A5648D42C1469A3008FB5F6 /* Views */,
 			);
 			path = OKPlayground;
@@ -99,6 +101,7 @@
 				0A5648E52C14D846008FB5F6 /* ModelListView.swift */,
 				0A5648E72C14E00E008FB5F6 /* ChatView.swift */,
 				0A5648E92C1504CD008FB5F6 /* GenerateView.swift */,
+				0A7B752C2C55E79400624336 /* ChatWithToolsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -208,6 +211,7 @@
 				0A5648EA2C1504CD008FB5F6 /* GenerateView.swift in Sources */,
 				0A5648C42C1468E0008FB5F6 /* OKPlaygroundApp.swift in Sources */,
 				0A5648E82C14E00E008FB5F6 /* ChatView.swift in Sources */,
+				0A7B752D2C55E79400624336 /* ChatWithToolsView.swift in Sources */,
 				0A5648DB2C14BF8A008FB5F6 /* DeleteModelView.swift in Sources */,
 				0A5648E42C14D342008FB5F6 /* ModelInfoView.swift in Sources */,
 				0A5648E22C14C7E1008FB5F6 /* ViewModel.swift in Sources */,
@@ -353,6 +357,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -382,6 +387,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
