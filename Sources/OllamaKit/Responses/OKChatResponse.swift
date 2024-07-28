@@ -47,6 +47,8 @@ public struct OKChatResponse: OKCompletionResponse, Decodable {
         /// A string containing the message's content.
         public var content: String
         
+        public var toolCalls: [ToolCall]?
+        
         /// An enumeration that represents the role of the message sender.
         public enum Role: String, Decodable {
             /// Indicates the message is from the system.
@@ -57,6 +59,21 @@ public struct OKChatResponse: OKCompletionResponse, Decodable {
             
             /// Indicates the message is from the user.
             case user
+        }
+        
+        /// A structure that represents a tool call in the response.
+        public struct ToolCall: Decodable {
+            /// An optional `Function` structure that represents the details of the tool call.
+            public let function: Function?
+            
+            /// A structure that represents the details of a tool call.
+            public struct Function: Decodable {
+                /// The name of the tool being called.
+                public let name: String?
+                
+                /// An optional `OKJSONValue` that represents the arguments passed to the tool.
+                public let arguments: OKJSONValue?
+            }
         }
     }
 }
