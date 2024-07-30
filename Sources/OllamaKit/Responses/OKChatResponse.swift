@@ -21,6 +21,9 @@ public struct OKChatResponse: OKCompletionResponse, Decodable {
     /// A boolean indicating whether the chat session is complete.
     public let done: Bool
     
+    /// An optional string indicating the cause for the completion of the chat session.
+    public let doneReason: String?
+    
     /// An optional integer representing the total duration of processing the request.
     public let totalDuration: Int?
     

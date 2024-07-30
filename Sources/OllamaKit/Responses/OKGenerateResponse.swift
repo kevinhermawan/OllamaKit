@@ -24,6 +24,9 @@ public struct OKGenerateResponse: OKCompletionResponse, Decodable {
     /// A boolean indicating whether the generation process is complete.
     public let done: Bool
     
+    /// An optional string indicating the cause for the completion of the generation.
+    public let doneReason: String?
+    
     /// An optional integer representing the total duration of processing the request.
     public let totalDuration: Int?
     
