@@ -1,3 +1,10 @@
+# 5.0.3
+
+## What's Changed
+
+- refactor: marks `images` as optional by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/32
+- feat: adds `doneReason` to chat and generation responses by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/33
+
 # 5.0.2
 
 ## What's Changed
