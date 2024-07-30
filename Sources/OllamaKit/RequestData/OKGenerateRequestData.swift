@@ -18,7 +18,7 @@ public struct OKGenerateRequestData: Encodable {
     public let prompt: String
     
     /// /// An optional array of base64-encoded images.
-    public let images: [String]
+    public let images: [String]?
     
     /// An optional string specifying the system message.
     public var system: String?
@@ -29,7 +29,7 @@ public struct OKGenerateRequestData: Encodable {
     /// Optional ``OKCompletionOptions`` providing additional configuration for the generation request.
     public var options: OKCompletionOptions?
     
-    public init(model: String, prompt: String, images: [String] = []) {
+    public init(model: String, prompt: String, images: [String]? = nil) {
         self.stream = true
         self.model = model
         self.prompt = prompt

@@ -39,9 +39,9 @@ public struct OKChatRequestData: Encodable {
         public let content: String
         
         /// An optional array of base64-encoded images.
-        public let images: [String]
+        public let images: [String]?
         
-        public init(role: Role, content: String, images: [String] = []) {
+        public init(role: Role, content: String, images: [String]? = nil) {
             self.role = role
             self.content = content
             self.images = images
