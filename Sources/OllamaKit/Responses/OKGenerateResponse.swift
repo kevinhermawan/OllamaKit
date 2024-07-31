@@ -9,39 +9,39 @@ import Foundation
 
 /// A structure that represents the response to a content generation request from the Ollama API.
 public struct OKGenerateResponse: OKCompletionResponse, Decodable {
-    /// A string representing the identifier of the model used for generation.
+    /// The identifier of the model used for generating the content.
     public let model: String
     
-    /// A `Date` indicating when the response was generated.
+    /// The date and time when the response was generated.
     public let createdAt: Date
     
-    /// A string containing the generated content.
+    /// A string containing the generated content. This field will be empty if the response was streamed; otherwise, it contains the full response.
     public let response: String
     
-    /// An optional array of integers representing contextual information used in the generation.
+    /// An optional array of integers providing contextual information used during generation.
     public let context: [Int]?
     
-    /// A boolean indicating whether the generation process is complete.
+    /// A boolean indicating whether the content generation process is complete.
     public let done: Bool
     
-    /// An optional string indicating the cause for the completion of the generation.
+    /// An optional string providing the reason for the completion of the generation process.
     public let doneReason: String?
     
-    /// An optional integer representing the total duration of processing the request.
+    /// An optional integer representing the total time spent generating the response, in nanoseconds.
     public let totalDuration: Int?
     
-    /// An optional integer indicating the duration of loading the model.
+    /// An optional integer representing the time spent loading the model, in nanoseconds.
     public let loadDuration: Int?
     
-    /// An optional integer specifying the number of evaluations performed on the prompt.
+    /// An optional integer indicating the number of tokens in the prompt that were evaluated.
     public let promptEvalCount: Int?
     
-    /// An optional integer indicating the duration of prompt evaluations.
+    /// An optional integer representing the time spent evaluating the prompt, in nanoseconds.
     public let promptEvalDuration: Int?
     
-    /// An optional integer representing the total number of evaluations performed.
+    /// An optional integer indicating the number of tokens in the generated response.
     public let evalCount: Int?
     
-    /// An optional integer indicating the duration of all evaluations.
+    /// An optional integer representing the time spent generating the response, in nanoseconds.
     public let evalDuration: Int?
 }

@@ -17,7 +17,7 @@ public struct OKChatRequestData: Encodable {
     /// An array of ``Message`` instances representing the content to be sent to the Ollama API.
     public let messages: [Message]
     
-    /// An optional array of `OKJSONValue` representing the tools available for tool calling in the chat.
+    /// An optional array of ``OKJSONValue`` representing the tools available for tool calling in the chat.
     public let tools: [OKJSONValue]?
     
     /// Optional ``OKCompletionOptions`` providing additional configuration for the chat request.
