@@ -1,3 +1,9 @@
+# 5.0.4
+
+## What's Changed
+
+- refactor: updates chat and generation options by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/34
+
 # 5.0.3
 
 ## What's Changed
