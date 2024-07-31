@@ -7,53 +7,79 @@
 
 import Foundation
 
-/// A structure that encapsulates options for controlling the behavior of content generation in the Ollama API.
+// A structure that encapsulates options for controlling the behavior of content generation in the Ollama API.
 public struct OKCompletionOptions: Encodable {
-    /// Optional integer to enable Mirostat sampling for controlling perplexity. (0 = disabled, 1 = Mirostat, 2 = Mirostat 2.0)
+    /// Optional integer to enable Mirostat sampling for controlling perplexity.
+    /// (0 = disabled, 1 = Mirostat, 2 = Mirostat 2.0)
+    /// Mirostat sampling helps regulate the unpredictability of the output,
+    /// balancing coherence and diversity. The default value is 0, which disables Mirostat.
     public var mirostat: Int?
     
-    /// Optional float influencing the adjustment speed of the Mirostat algorithm. (Lower = slower adjustment)
-    public var mirostatEta: Float?
+    /// Optional double influencing the adjustment speed of the Mirostat algorithm.
+    /// (Lower values result in slower adjustments, higher values increase responsiveness.)
+    /// This parameter, `mirostatEta`, adjusts how quickly the algorithm reacts to feedback
+    /// from the generated text. A default value of 0.1 provides a moderate adjustment speed.
+    public var mirostatEta: Double?
     
-    /// Optional float controlling the balance between coherence and diversity. (Lower = more focused text)
-    public var mirostatTau: Float?
+    /// Optional double controlling the balance between coherence and diversity.
+    /// (Lower values lead to more focused and coherent text)
+    /// The `mirostatTau` parameter sets the target perplexity level, influencing how
+    /// creative or constrained the text generation should be. Default is 5.0.
+    public var mirostatTau: Double?
     
     /// Optional integer setting the size of the context window for token generation.
+    /// This defines the number of previous tokens the model considers when generating new tokens.
+    /// Larger values allow the model to use more context, with a default of 2048 tokens.
     public var numCtx: Int?
     
-    /// Optional integer for the number of GQA groups in the transformer layer, specific to some models.
-    public var numGqa: Int?
-    
-    /// Optional integer indicating the number of layers to send to the GPU(s).
-    public var numGpu: Int?
-    
-    /// Optional integer for the number of threads used in computation, recommended to match physical CPU cores.
-    public var numThread: Int?
-    
-    /// Optional integer setting how far back the model checks to prevent repetition.
+    /// Optional integer setting how far back the model looks to prevent repetition.
+    /// This parameter, `repeatLastN`, determines the number of tokens the model
+    /// reviews to avoid repeating phrases. A value of 64 is typical, while 0 disables this feature.
     public var repeatLastN: Int?
     
-    /// Optional float setting the penalty strength for repetitions.
-    public var repeatPenalty: Float?
+    /// Optional double setting the penalty strength for repetitions.
+    /// A higher value increases the penalty for repeated tokens, discouraging repetition.
+    /// The default value is 1.1, providing moderate repetition control.
+    public var repeatPenalty: Double?
     
-    /// Optional float to control the model's creativity (higher = more creative).
-    public var temperature: Float?
+    /// Optional double to control the model's creativity.
+    /// (Higher values increase creativity and randomness)
+    /// The `temperature` parameter adjusts the randomness of predictions; higher values
+    /// like 0.8 make outputs more creative and diverse. The default is 0.7.
+    public var temperature: Double?
     
     /// Optional integer for setting a random number seed for generation consistency.
+    /// Specifying a seed ensures the same output for the same prompt and parameters,
+    /// useful for testing or reproducing results. Default is 0, meaning no fixed seed.
     public var seed: Int?
     
     /// Optional string defining stop sequences for the model to cease generation.
+    /// The `stop` parameter specifies sequences that, when encountered, will halt further text generation.
+    /// Multiple stop sequences can be defined. For example, "AI assistant:".
     public var stop: String?
     
-    /// Optional float for tail free sampling, reducing impact of less probable tokens.
-    public var tfsZ: Float?
+    /// Optional double for tail free sampling, reducing impact of less probable tokens.
+    /// `tfsZ` adjusts how much the model avoids unlikely tokens, with higher values
+    /// reducing their influence. A value of 1.0 disables this feature.
+    public var tfsZ: Double?
     
     /// Optional integer for the maximum number of tokens to predict.
+    /// `numPredict` sets the upper limit for the number of tokens to generate.
+    /// A default of 128 tokens is typical, with special values like -1 for infinite generation.
     public var numPredict: Int?
     
     /// Optional integer to limit nonsense generation and control answer diversity.
+    /// The `topK` parameter limits the set of possible tokens to the top-k likely choices.
+    /// Lower values (e.g., 10) reduce diversity, while higher values (e.g., 100) increase it. Default is 40.
     public var topK: Int?
     
-    /// Optional float working with top-k to balance text diversity and focus.
-    public var topP: Float?
+    /// Optional double working with top-k to balance text diversity and focus.
+    /// `topP` (nucleus sampling) retains tokens that cumulatively account for a certain
+    /// probability mass, adding flexibility beyond `topK`. A value like 0.9 increases diversity.
+    public var topP: Double?
+    
+    /// Optional double for the minimum probability threshold for token inclusion.
+    /// `minP` ensures that tokens below a certain probability threshold are excluded,
+    /// focusing the model's output on more probable sequences. Default is 0.0, meaning no filtering.
+    public var minP: Double?
 }
