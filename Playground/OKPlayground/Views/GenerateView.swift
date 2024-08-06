@@ -13,6 +13,7 @@ struct GenerateView: View {
     @Environment(ViewModel.self) private var viewModel
     
     @State private var model: String? = nil
+    @State private var temperature: Double = 0.5
     @State private var prompt = ""
     @State private var response = ""
     @State private var cancellables = Set<AnyCancellable>()
@@ -20,14 +21,26 @@ struct GenerateView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section {
-                    Picker("Model", selection: $model) {
+                Section("Model") {
+                    Picker("Selected Model", selection: $model) {
                         ForEach(viewModel.models, id: \.self) { model in
                             Text(model)
                                 .tag(model as String?)
                         }
                     }
-                    
+                }
+                
+                Section("Temperature") {
+                    Slider(value: $temperature, in: 0...1, step: 0.1) {
+                        Text("Temperature")
+                    } minimumValueLabel: {
+                        Text("0")
+                    } maximumValueLabel: {
+                        Text("1")
+                    }
+                }
+                
+                Section("Prompt") {
                     TextField("Prompt", text: $prompt)
                 }
                 
@@ -52,7 +65,8 @@ struct GenerateView: View {
         self.response = ""
         
         guard let model = model else { return }
-        let data = OKGenerateRequestData(model: model, prompt: prompt)
+        var data = OKGenerateRequestData(model: model, prompt: prompt)
+        data.options = OKCompletionOptions(temperature: temperature)
         
         Task {
             for try await chunk in viewModel.ollamaKit.generate(data: data) {
@@ -65,7 +79,8 @@ struct GenerateView: View {
         self.response = ""
         
         guard let model = model else { return }
-        let data = OKGenerateRequestData(model: model, prompt: prompt)
+        var data = OKGenerateRequestData(model: model, prompt: prompt)
+        data.options = OKCompletionOptions(temperature: temperature)
         
         viewModel.ollamaKit.generate(data: data)
             .sink { completion in

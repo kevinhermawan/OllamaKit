@@ -8,7 +8,7 @@
 import Foundation
 
 /// A structure that encapsulates data for chat requests to the Ollama API.
-public struct OKChatRequestData: Encodable {
+public struct OKChatRequestData {
     private let stream: Bool
     
     /// A string representing the model identifier to be used for the chat session.
@@ -58,5 +58,23 @@ public struct OKChatRequestData: Encodable {
             /// Indicates the message is from the user.
             case user
         }
+    }
+}
+
+extension OKChatRequestData: Encodable {
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(stream, forKey: .stream)
+        try container.encode(model, forKey: .model)
+        try container.encode(messages, forKey: .messages)
+        try container.encodeIfPresent(tools, forKey: .tools)
+        
+        if let options {
+            try options.encode(to: encoder)
+        }
+    }
+    
+    private enum CodingKeys: String, CodingKey {
+        case stream, model, messages, tools
     }
 }
