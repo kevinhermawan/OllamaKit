@@ -1,3 +1,9 @@
+# 5.0.5
+
+## What's Changed
+
+- fix: parameters aren't encoded by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/36
+
 # 5.0.4
 
 ## What's Changed
