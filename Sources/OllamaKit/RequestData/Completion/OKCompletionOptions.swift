@@ -82,4 +82,21 @@ public struct OKCompletionOptions: Encodable {
     /// `minP` ensures that tokens below a certain probability threshold are excluded,
     /// focusing the model's output on more probable sequences. Default is 0.0, meaning no filtering.
     public var minP: Double?
+    
+    public init(mirostat: Int? = nil, mirostatEta: Double? = nil, mirostatTau: Double? = nil, numCtx: Int? = nil, repeatLastN: Int? = nil, repeatPenalty: Double? = nil, temperature: Double? = nil, seed: Int? = nil, stop: String? = nil, tfsZ: Double? = nil, numPredict: Int? = nil, topK: Int? = nil, topP: Double? = nil, minP: Double? = nil) {
+        self.mirostat = mirostat
+        self.mirostatEta = mirostatEta
+        self.mirostatTau = mirostatTau
+        self.numCtx = numCtx
+        self.repeatLastN = repeatLastN
+        self.repeatPenalty = repeatPenalty
+        self.temperature = temperature
+        self.seed = seed
+        self.stop = stop
+        self.tfsZ = tfsZ
+        self.numPredict = numPredict
+        self.topK = topK
+        self.topP = topP
+        self.minP = minP
+    }
 }

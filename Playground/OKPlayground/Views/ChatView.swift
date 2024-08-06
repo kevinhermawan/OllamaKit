@@ -13,6 +13,7 @@ struct ChatView: View {
     @Environment(ViewModel.self) private var viewModel
     
     @State private var model: String? = nil
+    @State private var temperature: Double = 0.5
     @State private var prompt = ""
     @State private var response = ""
     @State private var cancellables = Set<AnyCancellable>()
@@ -20,14 +21,26 @@ struct ChatView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section {
-                    Picker("Model", selection: $model) {
+                Section("Model") {
+                    Picker("Selected Model", selection: $model) {
                         ForEach(viewModel.models, id: \.self) { model in
                             Text(model)
                                 .tag(model as String?)
                         }
                     }
-                    
+                }
+                
+                Section("Temperature") {
+                    Slider(value: $temperature, in: 0...1, step: 0.1) {
+                        Text("Temperature")
+                    } minimumValueLabel: {
+                        Text("0")
+                    } maximumValueLabel: {
+                        Text("1")
+                    }
+                }
+                
+                Section("Prompt") {
                     TextField("Prompt", text: $prompt)
                 }
                 
@@ -53,7 +66,8 @@ struct ChatView: View {
         
         guard let model = model else { return }
         let messages = [OKChatRequestData.Message(role: .user, content: prompt)]
-        let data = OKChatRequestData(model: model, messages: messages)
+        var data = OKChatRequestData(model: model, messages: messages)
+        data.options = OKCompletionOptions(temperature: temperature)
         
         Task {
             for try await chunk in viewModel.ollamaKit.chat(data: data) {
@@ -67,7 +81,8 @@ struct ChatView: View {
         
         guard let model = model else { return }
         let messages = [OKChatRequestData.Message(role: .user, content: prompt)]
-        let data = OKChatRequestData(model: model, messages: messages)
+        var data = OKChatRequestData(model: model, messages: messages)
+        data.options = OKCompletionOptions(temperature: temperature)
         
         viewModel.ollamaKit.chat(data: data)
             .sink { completion in
