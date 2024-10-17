@@ -8,7 +8,7 @@
 import Combine
 import Foundation
 
-internal struct OKHTTPClient {
+internal struct OKHTTPClient: Sendable {
     private let decoder: JSONDecoder = .default
     static let shared = OKHTTPClient()
 }

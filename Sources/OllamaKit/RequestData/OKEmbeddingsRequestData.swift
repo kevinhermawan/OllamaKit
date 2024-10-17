@@ -8,7 +8,7 @@
 import Foundation
 
 /// A structure that encapsulates the data required for generating embeddings using the Ollama API.
-public struct OKEmbeddingsRequestData: Encodable {
+public struct OKEmbeddingsRequestData: Encodable, Sendable {
     /// A string representing the identifier of the model.
     public let model: String
     

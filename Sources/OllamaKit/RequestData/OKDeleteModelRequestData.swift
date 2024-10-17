@@ -8,7 +8,7 @@
 import Foundation
 
 /// A structure that encapsulates the necessary data to request a model deletion in the Ollama API.
-public struct OKDeleteModelRequestData: Encodable {
+public struct OKDeleteModelRequestData: Encodable, Sendable {
     /// A string representing the identifier of the model to be deleted.
     public let name: String
     

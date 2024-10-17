@@ -44,7 +44,7 @@ public struct OKChatResponse: OKCompletionResponse, Decodable {
     public let evalDuration: Int?
     
     /// A structure that represents a single response message.
-    public struct Message: Decodable {
+    public struct Message: Decodable, Sendable {
         /// The role of the message sender (system, assistant, user).
         public var role: Role
         
@@ -55,7 +55,7 @@ public struct OKChatResponse: OKCompletionResponse, Decodable {
         public var toolCalls: [ToolCall]?
         
         /// An enumeration representing the role of the message sender.
-        public enum Role: String, Decodable {
+        public enum Role: String, Decodable, Sendable {
             /// The message is from the system.
             case system
             
@@ -67,12 +67,12 @@ public struct OKChatResponse: OKCompletionResponse, Decodable {
         }
         
         /// A structure that represents a tool call in the response.
-        public struct ToolCall: Decodable {
+        public struct ToolCall: Decodable, Sendable {
             /// An optional ``Function`` structure representing the details of the tool call.
             public let function: Function?
             
             /// A structure that represents the details of a tool call.
-            public struct Function: Decodable {
+            public struct Function: Decodable, Sendable {
                 /// The name of the tool being called.
                 public let name: String?
                 

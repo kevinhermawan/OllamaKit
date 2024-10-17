@@ -8,7 +8,7 @@
 import Foundation
 
 internal enum OKRouter {
-    static var baseURL = URL(string: "http://localhost:11434")!
+
     
     case root
     case models
@@ -67,8 +67,8 @@ internal enum OKRouter {
 }
 
 extension OKRouter {
-    func asURLRequest() throws -> URLRequest {
-        let url = OKRouter.baseURL.appendingPathComponent(path)
+    func asURLRequest(baseURL: URL) throws -> URLRequest {
+        let url = baseURL.appendingPathComponent(path)
         
         var request = URLRequest(url: url)
         request.httpMethod = method
