@@ -17,7 +17,7 @@ public struct OKGenerateRequestData: Sendable {
     /// A string containing the initial input or prompt.
     public let prompt: String
     
-    /// /// An optional array of base64-encoded images.
+    /// An optional array of base64-encoded images.
     public let images: [String]?
     
     /// An optional string specifying the system message.
@@ -29,11 +29,36 @@ public struct OKGenerateRequestData: Sendable {
     /// Optional ``OKCompletionOptions`` providing additional configuration for the generation request.
     public var options: OKCompletionOptions?
     
-    public init(model: String, prompt: String, images: [String]? = nil) {
+    public init(
+        model: String,
+        prompt: String,
+        images: [String]? = nil,
+        system: String? = nil,
+        context: [Int]? = nil,
+        options: OKCompletionOptions? = nil
+    ) {
         self.stream = true
         self.model = model
         self.prompt = prompt
         self.images = images
+        self.system = system
+        self.context = context
+        self.options = options
+    }
+    
+    public init(
+        model: String,
+        prompt: String,
+        images: [String]? = nil,
+        with configureOptions: @Sendable (inout OKCompletionOptions) -> Void = { _ in () }
+    ) {
+        self.stream = true
+        self.model = model
+        self.prompt = prompt
+        self.images = images
+        var options = OKCompletionOptions()
+        configureOptions(&options)
+        self.options = options
     }
 }
 
