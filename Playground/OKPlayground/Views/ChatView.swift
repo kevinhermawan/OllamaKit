@@ -13,7 +13,7 @@ struct ChatView: View {
     @Environment(ViewModel.self) private var viewModel
     
     @State private var model: String? = nil
-    @State private var temperature: Double = 0.5
+    @State private var temperature: Float = 0.5
     @State private var prompt = ""
     @State private var response = ""
     @State private var cancellables = Set<AnyCancellable>()

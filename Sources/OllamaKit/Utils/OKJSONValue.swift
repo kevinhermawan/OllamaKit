@@ -9,7 +9,7 @@ import Foundation
 
 public enum OKJSONValue: Codable, Sendable {
     case string(String)
-    case number(Double)
+    case number(Float)
     case integer(Int)
     case boolean(Bool)
     case array([OKJSONValue])
@@ -20,7 +20,7 @@ public enum OKJSONValue: Codable, Sendable {
         
         if let value = try? container.decode(String.self) {
             self = .string(value)
-        } else if let value = try? container.decode(Double.self) {
+        } else if let value = try? container.decode(Float.self) {
             self = .number(value)
         } else if let value = try? container.decode(Int.self) {
             self = .integer(value)
