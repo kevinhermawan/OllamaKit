@@ -68,16 +68,48 @@ public struct OKChatRequestData: Sendable {
             self.images = images
         }
         
-        /// An enumeration that represents the role of the message sender.
-        public enum Role: String, Encodable, Sendable {
-            /// Indicates the message is from the system.
+        /// An enumeration representing the role of the message sender.
+        public enum Role: RawRepresentable, Encodable, Sendable {
+            
+            /// The message is from the system.
             case system
             
-            /// Indicates the message is from the assistant.
+            /// The message is from the assistant.
             case assistant
             
-            /// Indicates the message is from the user.
+            /// The message is from the user.
             case user
+            
+            /// A custom role with a specified name.
+            case custom(String)
+            
+            // Initializer for RawRepresentable conformance
+            public init?(rawValue: String) {
+                switch rawValue {
+                case "system":
+                    self = .system
+                case "assistant":
+                    self = .assistant
+                case "user":
+                    self = .user
+                default:
+                    self = .custom(rawValue)
+                }
+            }
+            
+            // Computed property to get the raw value as a string.
+            public var rawValue: String {
+                switch self {
+                case .system:
+                    return "system"
+                case .assistant:
+                    return "assistant"
+                case .user:
+                    return "user"
+                case .custom(let value):
+                    return value
+                }
+            }
         }
     }
 }
@@ -97,5 +129,24 @@ extension OKChatRequestData: Encodable {
     
     private enum CodingKeys: String, CodingKey {
         case stream, model, messages, tools
+    }
+}
+
+extension OKChatRequestData.Message {
+    
+    public static func system(_ content: String, images: [String]? = nil) -> OKChatRequestData.Message {
+        .init(role: .system, content: content, images: images)
+    }
+    
+    public static func user(_ content: String, images: [String]? = nil) -> OKChatRequestData.Message {
+        .init(role: .user, content: content, images: images)
+    }
+    
+    public static func assistant(_ content: String, images: [String]? = nil) -> OKChatRequestData.Message {
+        .init(role: .assistant, content: content, images: images)
+    }
+    
+    public static func custom(name: String, _ content: String, images: [String]? = nil) -> OKChatRequestData.Message {
+        .init(role: .custom(name), content: content, images: images)
     }
 }
