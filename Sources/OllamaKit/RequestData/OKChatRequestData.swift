@@ -40,7 +40,7 @@ public struct OKChatRequestData: Sendable {
         model: String,
         messages: [Message],
         tools: [OKJSONValue]? = nil,
-        with configureOptions: @Sendable (inout OKCompletionOptions) -> Void = { _ in () }
+        with configureOptions: @Sendable (inout OKCompletionOptions) -> Void
     ) {
         self.stream = tools == nil
         self.model = model

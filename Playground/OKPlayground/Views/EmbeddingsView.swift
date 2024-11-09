@@ -14,7 +14,7 @@ struct EmbeddingsView: View {
     
     @State private var model: String? = nil
     @State private var prompt = ""
-    @State private var embedding = [Double]()
+    @State private var embedding = [Float]()
     @State private var cancellables = Set<AnyCancellable>()
     
     var body: some View {
