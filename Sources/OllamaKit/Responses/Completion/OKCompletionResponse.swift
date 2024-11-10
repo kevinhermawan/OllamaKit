@@ -8,7 +8,7 @@
 import Foundation
 
 /// A protocol that defines the response structure for a completion request in the Ollama API.
-protocol OKCompletionResponse: Decodable {
+protocol OKCompletionResponse: Decodable, Sendable {
     /// The identifier of the model used for generating the response.
     var model: String { get }
     

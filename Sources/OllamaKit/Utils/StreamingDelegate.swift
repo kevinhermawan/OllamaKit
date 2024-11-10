@@ -5,10 +5,10 @@
 //  Created by Kevin Hermawan on 09/06/24.
 //
 
-import Combine
+@preconcurrency import Combine
 import Foundation
 
-internal class StreamingDelegate: NSObject, URLSessionDataDelegate {
+internal class StreamingDelegate: NSObject, URLSessionDataDelegate, @unchecked Sendable {
     private let subject = PassthroughSubject<Data, URLError>()
     
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {

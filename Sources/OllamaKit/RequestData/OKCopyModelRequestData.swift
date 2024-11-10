@@ -8,7 +8,7 @@
 import Foundation
 
 /// A structure that encapsulates the necessary data to request a model copy operation in the Ollama API.
-public struct OKCopyModelRequestData: Encodable {
+public struct OKCopyModelRequestData: Encodable, Sendable {
     /// A string representing the identifier of the source model to be copied.
     public let source: String
     
