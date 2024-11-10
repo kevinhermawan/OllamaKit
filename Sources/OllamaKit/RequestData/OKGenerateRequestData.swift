@@ -50,7 +50,7 @@ public struct OKGenerateRequestData: Sendable {
         model: String,
         prompt: String,
         images: [String]? = nil,
-        with configureOptions: @Sendable (inout OKCompletionOptions) -> Void = { _ in () }
+        with configureOptions: @Sendable (inout OKCompletionOptions) -> Void
     ) {
         self.stream = true
         self.model = model

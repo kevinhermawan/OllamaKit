@@ -31,7 +31,7 @@ public struct OKEmbeddingsRequestData: Encodable, Sendable {
     public init(
         model: String,
         prompt: String,
-        with configureOptions: @Sendable (inout OKCompletionOptions) -> Void = { _ in () }
+        with configureOptions: @Sendable (inout OKCompletionOptions) -> Void
     ) {
         self.model = model
         self.prompt = prompt
