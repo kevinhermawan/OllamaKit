@@ -8,7 +8,7 @@
 import Foundation
 
 /// A structure that represents the response to a content generation request from the Ollama API.
-public struct OKGenerateResponse: OKCompletionResponse, Decodable {
+public struct OKGenerateResponse: OKCompletionResponse, Decodable, Sendable {
     /// The identifier of the model used for generating the content.
     public let model: String
     

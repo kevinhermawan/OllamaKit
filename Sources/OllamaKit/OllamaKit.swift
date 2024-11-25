@@ -8,7 +8,7 @@
 import Foundation
 
 /// Provides a streamlined way to access the Ollama API, encapsulating the complexities of network communication and data processing.
-public struct OllamaKit {
+public struct OllamaKit: Sendable {
     var router: OKRouter.Type
     var decoder: JSONDecoder = .default
     

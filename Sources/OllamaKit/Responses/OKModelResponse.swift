@@ -8,12 +8,12 @@
 import Foundation
 
 /// A structure that represents the available models from the Ollama API.
-public struct OKModelResponse: Decodable {
+public struct OKModelResponse: Decodable, Sendable {
     /// An array of ``Model`` instances, each representing a specific model available in the Ollama API.
     public let models: [Model]
     
     /// A structure that details individual models.
-    public struct Model: Decodable {
+    public struct Model: Decodable, Sendable {
         /// A string representing the name of the model.
         public let name: String
         
@@ -30,7 +30,7 @@ public struct OKModelResponse: Decodable {
         public let details: ModelDetails
 
         /// A structure that represents the details of the model.
-        public struct ModelDetails: Decodable {
+        public struct ModelDetails: Decodable, Sendable {
             /// The format of the model. E.g. "gguf".
             public let format: String
 

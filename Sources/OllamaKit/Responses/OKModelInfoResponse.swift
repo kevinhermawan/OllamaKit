@@ -8,7 +8,7 @@
 import Foundation
 
 /// A structure that represents the response containing information about a specific model from the Ollama API.
-public struct OKModelInfoResponse: Decodable {
+public struct OKModelInfoResponse: Decodable, Sendable {
     /// A string detailing the licensing information for the model.
     public let license: String
     

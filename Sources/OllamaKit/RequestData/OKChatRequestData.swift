@@ -8,7 +8,7 @@
 import Foundation
 
 /// A structure that encapsulates data for chat requests to the Ollama API.
-public struct OKChatRequestData {
+public struct OKChatRequestData: Sendable {
     private let stream: Bool
     
     /// A string representing the model identifier to be used for the chat session.
@@ -31,7 +31,7 @@ public struct OKChatRequestData {
     }
     
     /// A structure that represents a single message in the chat request.
-    public struct Message: Encodable {
+    public struct Message: Encodable, Sendable {
         /// A ``Role`` value indicating the sender of the message (system, assistant, user).
         public let role: Role
         
@@ -48,7 +48,7 @@ public struct OKChatRequestData {
         }
         
         /// An enumeration that represents the role of the message sender.
-        public enum Role: String, Encodable {
+        public enum Role: String, Encodable, Sendable {
             /// Indicates the message is from the system.
             case system
             
