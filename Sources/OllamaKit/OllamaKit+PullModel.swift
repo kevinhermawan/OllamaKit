@@ -31,7 +31,7 @@ extension OllamaKit {
     /// - Returns: An asynchronous stream that emits ``OKPullModelResponse``.
     public func pullModel(data: OKPullModelRequestData) -> AsyncThrowingStream<OKPullModelResponse, Error> {
         do {
-            let request = try OKRouter.pullModel(data: data).asURLRequest()
+            let request = try OKRouter.pullModel(data: data).asURLRequest(with: baseURL)
 
             return OKHTTPClient.shared.stream(request: request, with: OKPullModelResponse.self)
         } catch {
@@ -67,7 +67,7 @@ extension OllamaKit {
     /// - Returns: A combine publisher that emits ``OKPullModelResponse``.
     public func pullModel(data: OKPullModelRequestData) -> AnyPublisher<OKPullModelResponse, Error> {
         do {
-            let request = try OKRouter.pullModel(data: data).asURLRequest()
+            let request = try OKRouter.pullModel(data: data).asURLRequest(with: baseURL)
 
             return OKHTTPClient.shared.stream(request: request, with: OKPullModelResponse.self)
         } catch {
