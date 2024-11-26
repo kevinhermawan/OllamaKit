@@ -13,9 +13,12 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
+env:
+  DEVELOPER_DIR: /Applications/Xcode_16.1.app/Contents/Developer
+
 jobs:
   deploy:
-    runs-on: macos-13
+    runs-on: macos-15
 
     environment:
       name: github-pages
