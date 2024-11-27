@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum OKJSONValue: Codable {
+public enum OKJSONValue: Codable, Sendable {
     case string(String)
     case number(Double)
     case integer(Int)

@@ -23,8 +23,8 @@ extension OllamaKit {
     /// - Returns: An ``OKEmbeddingsResponse`` containing the embeddings from the model.
     /// - Throws: An error if the request fails or the response can't be decoded.
     public func embeddings(data: OKEmbeddingsRequestData) async throws -> OKEmbeddingsResponse {
-        let request = try OKRouter.embeddings(data: data).asURLRequest()
-        
+        let request = try OKRouter.embeddings(data: data).asURLRequest(with: baseURL)
+
         return try await OKHTTPClient.shared.send(request: request, with: OKEmbeddingsResponse.self)
     }
     
@@ -49,7 +49,7 @@ extension OllamaKit {
     /// - Returns: A `AnyPublisher<OKEmbeddingsResponse, Error>` that emits embeddings.
     public func embeddings(data: OKEmbeddingsRequestData) -> AnyPublisher<OKEmbeddingsResponse, Error> {
         do {
-            let request = try OKRouter.embeddings(data: data).asURLRequest()
+            let request = try OKRouter.embeddings(data: data).asURLRequest(with: baseURL)
             
             return OKHTTPClient.shared.send(request: request, with: OKEmbeddingsResponse.self)
         } catch {

@@ -8,7 +8,7 @@
 import Foundation
 
 /// The response model for pulling a new model from the ollama library.
-public struct OKPullModelResponse: Decodable {
+public struct OKPullModelResponse: Decodable, Sendable {
     /// The current status.
     public let status: String
 

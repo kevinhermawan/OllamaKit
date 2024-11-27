@@ -8,7 +8,7 @@
 import Foundation
 
 /// A structure that encapsulates the data required for generating responses using the Ollama API.
-public struct OKGenerateRequestData {
+public struct OKGenerateRequestData: Sendable {
     private let stream: Bool
     
     /// A string representing the identifier of the model.
