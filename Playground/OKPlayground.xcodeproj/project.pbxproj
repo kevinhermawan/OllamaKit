@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -21,6 +21,7 @@
 		0A5648EA2C1504CD008FB5F6 /* GenerateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5648E92C1504CD008FB5F6 /* GenerateView.swift */; };
 		0A5648EE2C150C66008FB5F6 /* OllamaKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0A5648ED2C150C66008FB5F6 /* OllamaKit */; };
 		0A7B752D2C55E79400624336 /* ChatWithToolsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7B752C2C55E79400624336 /* ChatWithToolsView.swift */; };
+		0AEA9B902CFCFD0100227D01 /* OllamaKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0AEA9B8F2CFCFD0100227D01 /* OllamaKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +48,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A5648EE2C150C66008FB5F6 /* OllamaKit in Frameworks */,
+				0AEA9B902CFCFD0100227D01 /* OllamaKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,6 +150,7 @@
 			name = OKPlayground;
 			packageProductDependencies = (
 				0A5648ED2C150C66008FB5F6 /* OllamaKit */,
+				0AEA9B8F2CFCFD0100227D01 /* OllamaKit */,
 			);
 			productName = OKPlayground;
 			productReference = 0A5648C02C1468E0008FB5F6 /* OKPlayground.app */;
@@ -178,6 +181,7 @@
 			);
 			mainGroup = 0A5648B72C1468E0008FB5F6;
 			packageReferences = (
+				0AEA9B8E2CFCFD0100227D01 /* XCLocalSwiftPackageReference "../../OllamaKit" */,
 			);
 			productRefGroup = 0A5648C12C1468E0008FB5F6 /* Products */;
 			projectDirPath = "";
@@ -424,8 +428,19 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		0AEA9B8E2CFCFD0100227D01 /* XCLocalSwiftPackageReference "../../OllamaKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../OllamaKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		0A5648ED2C150C66008FB5F6 /* OllamaKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = OllamaKit;
+		};
+		0AEA9B8F2CFCFD0100227D01 /* OllamaKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = OllamaKit;
 		};
