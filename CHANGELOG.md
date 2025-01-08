@@ -1,3 +1,7 @@
+# 5.0.7
+
+- feat: adds structured output support by @macistador in https://github.com/kevinhermawan/OllamaKit/pull/43
+
 # 5.0.6
 
 - Add support to pull model from library by @lukepistrol in https://github.com/kevinhermawan/OllamaKit/pull/39
