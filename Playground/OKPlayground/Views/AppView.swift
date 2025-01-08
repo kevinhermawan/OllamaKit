@@ -44,7 +44,11 @@ struct AppView: View {
                     NavigationLink("Chat with Tools") {
                         ChatWithToolsView()
                     }
-                    
+
+                    NavigationLink("Chat with Format") {
+                        ChatWithFormatView()
+                    }
+
                     NavigationLink("Generate") {
                         GenerateView()
                     }
