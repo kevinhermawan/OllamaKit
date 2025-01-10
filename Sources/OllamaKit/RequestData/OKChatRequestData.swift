@@ -19,20 +19,27 @@ public struct OKChatRequestData: Sendable {
     
     /// An optional array of ``OKJSONValue`` representing the tools available for tool calling in the chat.
     public let tools: [OKJSONValue]?
-    
+
+    /// Optional ``OKJSONValue`` representing the JSON schema for the response.
+    /// Be sure to also include "return as JSON" in your prompt
+    public let format: OKJSONValue?
+
     /// Optional ``OKCompletionOptions`` providing additional configuration for the chat request.
     public var options: OKCompletionOptions?
     
+
     public init(
         model: String,
         messages: [Message],
         tools: [OKJSONValue]? = nil,
+        format: OKJSONValue? = nil,
         options: OKCompletionOptions? = nil
     ) {
         self.stream = tools == nil
         self.model = model
         self.messages = messages
         self.tools = tools
+        self.format = format
         self.options = options
     }
     
@@ -40,6 +47,7 @@ public struct OKChatRequestData: Sendable {
         model: String,
         messages: [Message],
         tools: [OKJSONValue]? = nil,
+        format: OKJSONValue? = nil,
         with configureOptions: @Sendable (inout OKCompletionOptions) -> Void
     ) {
         self.stream = tools == nil
@@ -48,7 +56,8 @@ public struct OKChatRequestData: Sendable {
         self.tools = tools
         var options = OKCompletionOptions()
         configureOptions(&options)
-        self.options = options
+        self.format = format
+        self.options = options        
     }
     
     /// A structure that represents a single message in the chat request.
@@ -121,14 +130,14 @@ extension OKChatRequestData: Encodable {
         try container.encode(model, forKey: .model)
         try container.encode(messages, forKey: .messages)
         try container.encodeIfPresent(tools, forKey: .tools)
-        
+        try container.encodeIfPresent(format, forKey: .format)
         if let options {
             try options.encode(to: encoder)
         }
     }
     
     private enum CodingKeys: String, CodingKey {
-        case stream, model, messages, tools
+        case stream, model, messages, tools, format
     }
 }
 

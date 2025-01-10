@@ -8,7 +8,7 @@
 import Foundation
 
 /// A structure that represents the response to a chat request from the Ollama API.
-public struct OKChatResponse: OKCompletionResponse, Decodable {
+public struct OKChatResponse: OKCompletionResponse, Decodable, Sendable {
     /// The identifier of the model that processed the request.
     public let model: String
     
@@ -56,7 +56,6 @@ public struct OKChatResponse: OKCompletionResponse, Decodable {
         
         /// An enumeration representing the role of the message sender.
         public enum Role: RawRepresentable, Decodable, Sendable {
-
             /// The message is from the system.
             case system
             

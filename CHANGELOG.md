@@ -1,37 +1,35 @@
-# 5.0.5
+# 5.0.7
 
-## What's Changed
+- feat: adds structured output support by @macistador in https://github.com/kevinhermawan/OllamaKit/pull/43
+
+# 5.0.6
+
+- Add support to pull model from library by @lukepistrol in https://github.com/kevinhermawan/OllamaKit/pull/39
+- Swift 6 support by @lukepistrol in https://github.com/kevinhermawan/OllamaKit/pull/40
+- fix: crash when retrieving model information using Combine by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/41
+
+# 5.0.5
 
 - fix: parameters aren't encoded by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/36
 
 # 5.0.4
 
-## What's Changed
-
 - refactor: updates chat and generation options by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/34
 
 # 5.0.3
-
-## What's Changed
 
 - refactor: marks `images` as optional by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/32
 - feat: adds `doneReason` to chat and generation responses by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/33
 
 # 5.0.2
 
-## What's Changed
-
 - feat: adds tool calling support by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/31
 
 # 5.0.1
 
-## What's Changed
-
 - chore: changes minimum macOS version to 12 by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/30
 
 # 5.0.0
-
-## What's Changed
 
 - refactor: removes Alamofire from `copyModel` by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/20
 - refactor: removes Alamofire from `deleteModel` by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/21
@@ -46,13 +44,9 @@
 
 # 4.1.0
 
-## What's Changed
-
 - refactor: changes type from `Double` to `Int` in `context` by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/19
 
 # 4.0.0
-
-## What's Changed
 
 - chore: removes Playground by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/14
 - feat: adds initializer with default base URL by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/15
@@ -62,22 +56,16 @@
 
 # 3.0.2
 
-## What's Changed
-
 - Added generateEmbeddings by @thrashr888 in https://github.com/kevinhermawan/OllamaKit/pull/11
 - Forward Alamofire failures by @malicious in https://github.com/kevinhermawan/OllamaKit/pull/12
 
 # 3.0.1
-
-## What's Changed
 
 - refactor: migrates `chat` and `generate` from `Future` to `PassthroughSubject` by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/8
 - chore: moves `Documentation.md` by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/9
 - fix: `context` must be an array of integers by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/10
 
 # 3.0.0
-
-## What's Changed
 
 - docs: improves the documentation by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/6
 - feat: adds reactive implementation for all APIs by @kevinhermawan in https://github.com/kevinhermawan/OllamaKit/pull/5

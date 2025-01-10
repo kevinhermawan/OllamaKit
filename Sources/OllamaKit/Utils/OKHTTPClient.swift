@@ -68,6 +68,7 @@ internal extension OKHTTPClient {
                 return data
             }
             .decode(type: T.self, decoder: decoder)
+            .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
     }
     
@@ -78,6 +79,7 @@ internal extension OKHTTPClient {
                 
                 return ()
             }
+            .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
     }
     

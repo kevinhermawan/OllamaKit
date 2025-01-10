@@ -19,7 +19,11 @@ public struct OKGenerateRequestData: Sendable {
     
     /// An optional array of base64-encoded images.
     public let images: [String]?
-    
+
+    /// Optional ``OKJSONValue`` representing the JSON schema for the response.
+    /// Be sure to also include "return as JSON" in your prompt
+    public let format: OKJSONValue?
+
     /// An optional string specifying the system message.
     public var system: String?
     
@@ -35,6 +39,7 @@ public struct OKGenerateRequestData: Sendable {
         images: [String]? = nil,
         system: String? = nil,
         context: [Int]? = nil,
+        format: OKJSONValue? = nil,
         options: OKCompletionOptions? = nil
     ) {
         self.stream = true
@@ -43,6 +48,7 @@ public struct OKGenerateRequestData: Sendable {
         self.images = images
         self.system = system
         self.context = context
+        self.format = format
         self.options = options
     }
     
@@ -50,6 +56,7 @@ public struct OKGenerateRequestData: Sendable {
         model: String,
         prompt: String,
         images: [String]? = nil,
+        format: OKJSONValue? = nil,
         with configureOptions: @Sendable (inout OKCompletionOptions) -> Void
     ) {
         self.stream = true
@@ -59,6 +66,7 @@ public struct OKGenerateRequestData: Sendable {
         var options = OKCompletionOptions()
         configureOptions(&options)
         self.options = options
+        self.format = format
     }
 }
 
@@ -69,6 +77,7 @@ extension OKGenerateRequestData: Encodable {
         try container.encode(model, forKey: .model)
         try container.encode(prompt, forKey: .prompt)
         try container.encodeIfPresent(images, forKey: .images)
+        try container.encodeIfPresent(format, forKey: .format)
         try container.encodeIfPresent(system, forKey: .system)
         try container.encodeIfPresent(context, forKey: .context)
         
@@ -78,6 +87,6 @@ extension OKGenerateRequestData: Encodable {
     }
     
     private enum CodingKeys: String, CodingKey {
-        case stream, model, prompt, images, system, context
+        case stream, model, prompt, images, format, system, context
     }
 }

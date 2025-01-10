@@ -8,18 +8,21 @@ on:
     branches:
       - main
 
+env:
+  DEVELOPER_DIR: /Applications/Xcode_16.1.app/Contents/Developer
+
 jobs:
   test-ios:
-    runs-on: macos-13
+    runs-on: macos-15
 
     steps:
       - uses: actions/checkout@v3
 
       - name: Build and test
-        run: xcodebuild test -scheme OllamaKit -destination 'platform=iOS Simulator,name=iPhone 14 Pro'
+        run: xcodebuild test -scheme OllamaKit -destination 'platform=iOS Simulator,name=iPhone 16 Pro'
 
   test-macos:
-    runs-on: macos-13
+    runs-on: macos-15
 
     steps:
       - uses: actions/checkout@v3

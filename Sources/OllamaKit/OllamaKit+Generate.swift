@@ -32,10 +32,7 @@ extension OllamaKit {
     /// - Returns: An `AsyncThrowingStream<OKGenerateResponse, Error>` emitting the live stream of responses from the Ollama API.
     public func generate(data: OKGenerateRequestData) -> AsyncThrowingStream<OKGenerateResponse, Error> {
         do {
-            let request = try OKRouter.generate(data: data).asURLRequest(
-                baseURL: baseURL
-            )
-            
+            let request = try OKRouter.generate(data: data).asURLRequest(with: baseURL)
             return OKHTTPClient.shared.stream(request: request, with: OKGenerateResponse.self)
         } catch {
             return AsyncThrowingStream { continuation in
@@ -65,10 +62,7 @@ extension OllamaKit {
     /// - Returns: An `AnyPublisher<OKGenerateResponse, Error>` emitting the live stream of responses from the Ollama API.
     public func generate(data: OKGenerateRequestData) -> AnyPublisher<OKGenerateResponse, Error> {
         do {
-            let request = try OKRouter.generate(data: data).asURLRequest(
-                baseURL: baseURL
-            )
-            
+            let request = try OKRouter.generate(data: data).asURLRequest(with: baseURL)
             return OKHTTPClient.shared.stream(request: request, with: OKGenerateResponse.self)
         } catch {
             return Fail(error: error).eraseToAnyPublisher()

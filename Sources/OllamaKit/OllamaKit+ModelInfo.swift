@@ -23,10 +23,7 @@ extension OllamaKit {
     /// - Returns: An ``OKModelInfoResponse`` containing detailed information about the model.
     /// - Throws: An error if the request fails or the response can't be decoded.
     public func modelInfo(data: OKModelInfoRequestData) async throws -> OKModelInfoResponse {
-        let request = try OKRouter.modelInfo(data: data).asURLRequest(
-            baseURL: baseURL
-        )
-        
+        let request = try OKRouter.modelInfo(data: data).asURLRequest(with: baseURL)
         return try await OKHTTPClient.shared.send(request: request, with: OKModelInfoResponse.self)
     }
     
@@ -51,10 +48,7 @@ extension OllamaKit {
     /// - Returns: A `AnyPublisher<OKModelInfoResponse, Error>` that emits detailed information about the model.
     public func modelInfo(data: OKModelInfoRequestData) -> AnyPublisher<OKModelInfoResponse, Error> {
         do {
-            let request = try OKRouter.modelInfo(data: data).asURLRequest(
-                baseURL: baseURL
-            )
-            
+            let request = try OKRouter.modelInfo(data: data).asURLRequest(with: baseURL)
             return OKHTTPClient.shared.send(request: request, with: OKModelInfoResponse.self)
         } catch {
             return Fail(error: error).eraseToAnyPublisher()

@@ -22,10 +22,7 @@ extension OllamaKit {
     /// - Parameter data: The ``OKDeleteModelRequestData`` containing the details needed to delete the model.
     /// - Throws: An error if the request to delete the model fails.
     public func deleteModel(data: OKDeleteModelRequestData) async throws -> Void {
-        let request = try OKRouter.deleteModel(data: data).asURLRequest(
-            baseURL: baseURL
-        )
-        
+        let request = try OKRouter.deleteModel(data: data).asURLRequest(with: baseURL)
         try await OKHTTPClient.shared.send(request: request)
     }
     
@@ -50,10 +47,7 @@ extension OllamaKit {
     /// - Returns: A `AnyPublisher<Void, Error>` that completes when the deletion operation is done.
     public func deleteModel(data: OKDeleteModelRequestData) -> AnyPublisher<Void, Error> {
         do {
-            let request = try OKRouter.deleteModel(data: data).asURLRequest(
-                baseURL: baseURL
-            )
-            
+            let request = try OKRouter.deleteModel(data: data).asURLRequest(with: baseURL)
             return OKHTTPClient.shared.send(request: request)
         } catch {
             return Fail(error: error).eraseToAnyPublisher()

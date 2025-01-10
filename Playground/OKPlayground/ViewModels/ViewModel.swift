@@ -9,6 +9,7 @@ import Foundation
 import OllamaKit
 
 @Observable
+@MainActor
 final class ViewModel {
     var ollamaKit = OllamaKit()
     

@@ -3,10 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04A2EC422D22A513009C9AED /* ChatWithFormatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A2EC412D22A513009C9AED /* ChatWithFormatView.swift */; };
+		04C1CC092D21E8B8005362B0 /* OllamaKit in Frameworks */ = {isa = PBXBuildFile; productRef = 04C1CC082D21E8B8005362B0 /* OllamaKit */; };
 		0A5648C42C1468E0008FB5F6 /* OKPlaygroundApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5648C32C1468E0008FB5F6 /* OKPlaygroundApp.swift */; };
 		0A5648C82C1468E1008FB5F6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A5648C72C1468E1008FB5F6 /* Assets.xcassets */; };
 		0A5648CB2C1468E1008FB5F6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A5648CA2C1468E1008FB5F6 /* Preview Assets.xcassets */; };
@@ -21,9 +23,11 @@
 		0A5648EA2C1504CD008FB5F6 /* GenerateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5648E92C1504CD008FB5F6 /* GenerateView.swift */; };
 		0A5648EE2C150C66008FB5F6 /* OllamaKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0A5648ED2C150C66008FB5F6 /* OllamaKit */; };
 		0A7B752D2C55E79400624336 /* ChatWithToolsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7B752C2C55E79400624336 /* ChatWithToolsView.swift */; };
+		0AEA9B902CFCFD0100227D01 /* OllamaKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0AEA9B8F2CFCFD0100227D01 /* OllamaKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		04A2EC412D22A513009C9AED /* ChatWithFormatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatWithFormatView.swift; sourceTree = "<group>"; };
 		0A5648C02C1468E0008FB5F6 /* OKPlayground.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OKPlayground.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A5648C32C1468E0008FB5F6 /* OKPlaygroundApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OKPlaygroundApp.swift; sourceTree = "<group>"; };
 		0A5648C72C1468E1008FB5F6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -47,6 +51,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A5648EE2C150C66008FB5F6 /* OllamaKit in Frameworks */,
+				0AEA9B902CFCFD0100227D01 /* OllamaKit in Frameworks */,
+				04C1CC092D21E8B8005362B0 /* OllamaKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,6 +108,7 @@
 				0A5648E72C14E00E008FB5F6 /* ChatView.swift */,
 				0A5648E92C1504CD008FB5F6 /* GenerateView.swift */,
 				0A7B752C2C55E79400624336 /* ChatWithToolsView.swift */,
+				04A2EC412D22A513009C9AED /* ChatWithFormatView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -148,6 +155,8 @@
 			name = OKPlayground;
 			packageProductDependencies = (
 				0A5648ED2C150C66008FB5F6 /* OllamaKit */,
+				0AEA9B8F2CFCFD0100227D01 /* OllamaKit */,
+				04C1CC082D21E8B8005362B0 /* OllamaKit */,
 			);
 			productName = OKPlayground;
 			productReference = 0A5648C02C1468E0008FB5F6 /* OKPlayground.app */;
@@ -178,6 +187,7 @@
 			);
 			mainGroup = 0A5648B72C1468E0008FB5F6;
 			packageReferences = (
+				04C1CC072D21E8B8005362B0 /* XCLocalSwiftPackageReference "../../OllamaKit" */,
 			);
 			productRefGroup = 0A5648C12C1468E0008FB5F6 /* Products */;
 			projectDirPath = "";
@@ -216,6 +226,7 @@
 				0A5648E42C14D342008FB5F6 /* ModelInfoView.swift in Sources */,
 				0A5648E22C14C7E1008FB5F6 /* ViewModel.swift in Sources */,
 				0A5648DF2C14C583008FB5F6 /* EmbeddingsView.swift in Sources */,
+				04A2EC422D22A513009C9AED /* ChatWithFormatView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -366,7 +377,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.kevinhermawan.OKPlayground;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -396,7 +407,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.kevinhermawan.OKPlayground;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -424,8 +435,23 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		04C1CC072D21E8B8005362B0 /* XCLocalSwiftPackageReference "../../OllamaKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../OllamaKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+		04C1CC082D21E8B8005362B0 /* OllamaKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = OllamaKit;
+		};
 		0A5648ED2C150C66008FB5F6 /* OllamaKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = OllamaKit;
+		};
+		0AEA9B8F2CFCFD0100227D01 /* OllamaKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = OllamaKit;
 		};
