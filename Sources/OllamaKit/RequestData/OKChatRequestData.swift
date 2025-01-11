@@ -18,7 +18,7 @@ public struct OKChatRequestData: Sendable {
     public let messages: [Message]
     
     /// An optional array of ``OKJSONValue`` representing the tools available for tool calling in the chat.
-    public let tools: [OKJSONValue]?
+    public let tools: [OKTool]?
 
     /// Optional ``OKJSONValue`` representing the JSON schema for the response.
     /// Be sure to also include "return as JSON" in your prompt
@@ -31,7 +31,7 @@ public struct OKChatRequestData: Sendable {
     public init(
         model: String,
         messages: [Message],
-        tools: [OKJSONValue]? = nil,
+        tools: [OKTool]? = nil,
         format: OKJSONValue? = nil,
         options: OKCompletionOptions? = nil
     ) {
@@ -46,7 +46,7 @@ public struct OKChatRequestData: Sendable {
     public init(
         model: String,
         messages: [Message],
-        tools: [OKJSONValue]? = nil,
+        tools: [OKTool]? = nil,
         format: OKJSONValue? = nil,
         with configureOptions: @Sendable (inout OKCompletionOptions) -> Void
     ) {
