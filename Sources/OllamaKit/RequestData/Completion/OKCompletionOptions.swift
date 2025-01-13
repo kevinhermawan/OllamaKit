@@ -19,13 +19,13 @@ public struct OKCompletionOptions: Encodable, Sendable {
     /// (Lower values result in slower adjustments, higher values increase responsiveness.)
     /// This parameter, `mirostatEta`, adjusts how quickly the algorithm reacts to feedback
     /// from the generated text. A default value of 0.1 provides a moderate adjustment speed.
-    public var mirostatEta: Double?
+    public var mirostatEta: Float?
     
     /// Optional double controlling the balance between coherence and diversity.
     /// (Lower values lead to more focused and coherent text)
     /// The `mirostatTau` parameter sets the target perplexity level, influencing how
     /// creative or constrained the text generation should be. Default is 5.0.
-    public var mirostatTau: Double?
+    public var mirostatTau: Float?
     
     /// Optional integer setting the size of the context window for token generation.
     /// This defines the number of previous tokens the model considers when generating new tokens.
@@ -40,13 +40,13 @@ public struct OKCompletionOptions: Encodable, Sendable {
     /// Optional double setting the penalty strength for repetitions.
     /// A higher value increases the penalty for repeated tokens, discouraging repetition.
     /// The default value is 1.1, providing moderate repetition control.
-    public var repeatPenalty: Double?
+    public var repeatPenalty: Float?
     
     /// Optional double to control the model's creativity.
     /// (Higher values increase creativity and randomness)
     /// The `temperature` parameter adjusts the randomness of predictions; higher values
     /// like 0.8 make outputs more creative and diverse. The default is 0.7.
-    public var temperature: Double?
+    public var temperature: Float?
     
     /// Optional integer for setting a random number seed for generation consistency.
     /// Specifying a seed ensures the same output for the same prompt and parameters,
@@ -61,7 +61,7 @@ public struct OKCompletionOptions: Encodable, Sendable {
     /// Optional double for tail free sampling, reducing impact of less probable tokens.
     /// `tfsZ` adjusts how much the model avoids unlikely tokens, with higher values
     /// reducing their influence. A value of 1.0 disables this feature.
-    public var tfsZ: Double?
+    public var tfsZ: Float?
     
     /// Optional integer for the maximum number of tokens to predict.
     /// `numPredict` sets the upper limit for the number of tokens to generate.
@@ -76,14 +76,14 @@ public struct OKCompletionOptions: Encodable, Sendable {
     /// Optional double working with top-k to balance text diversity and focus.
     /// `topP` (nucleus sampling) retains tokens that cumulatively account for a certain
     /// probability mass, adding flexibility beyond `topK`. A value like 0.9 increases diversity.
-    public var topP: Double?
+    public var topP: Float?
     
     /// Optional double for the minimum probability threshold for token inclusion.
     /// `minP` ensures that tokens below a certain probability threshold are excluded,
     /// focusing the model's output on more probable sequences. Default is 0.0, meaning no filtering.
-    public var minP: Double?
+    public var minP: Float?
     
-    public init(mirostat: Int? = nil, mirostatEta: Double? = nil, mirostatTau: Double? = nil, numCtx: Int? = nil, repeatLastN: Int? = nil, repeatPenalty: Double? = nil, temperature: Double? = nil, seed: Int? = nil, stop: String? = nil, tfsZ: Double? = nil, numPredict: Int? = nil, topK: Int? = nil, topP: Double? = nil, minP: Double? = nil) {
+    public init(mirostat: Int? = nil, mirostatEta: Float? = nil, mirostatTau: Float? = nil, numCtx: Int? = nil, repeatLastN: Int? = nil, repeatPenalty: Float? = nil, temperature: Float? = nil, seed: Int? = nil, stop: String? = nil, tfsZ: Float? = nil, numPredict: Int? = nil, topK: Int? = nil, topP: Float? = nil, minP: Float? = nil) {
         self.mirostat = mirostat
         self.mirostatEta = mirostatEta
         self.mirostatTau = mirostatTau

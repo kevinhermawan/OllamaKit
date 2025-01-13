@@ -21,8 +21,22 @@ public struct OKEmbeddingsRequestData: Encodable, Sendable {
     /// Optionally control how long the model will stay loaded into memory following the request (default: 5m)
     public var keepAlive: String?
     
-    public init(model: String, prompt: String) {
+    public init(model: String, prompt: String, options: OKCompletionOptions? = nil, keepAlive: String? = nil) {
         self.model = model
         self.prompt = prompt
+        self.options = options
+        self.keepAlive = keepAlive
+    }
+    
+    public init(
+        model: String,
+        prompt: String,
+        with configureOptions: @Sendable (inout OKCompletionOptions) -> Void
+    ) {
+        self.model = model
+        self.prompt = prompt
+        var options = OKCompletionOptions()
+        configureOptions(&options)
+        self.options = options
     }
 }

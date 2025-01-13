@@ -8,6 +8,7 @@
 import Foundation
 
 internal enum OKRouter {
+    
     case root
     case models
     case modelInfo(data: OKModelInfoRequestData)

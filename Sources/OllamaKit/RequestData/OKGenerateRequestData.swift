@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import JSONSchema
 
 /// A structure that encapsulates the data required for generating responses using the Ollama API.
 public struct OKGenerateRequestData: Sendable {
@@ -20,9 +21,9 @@ public struct OKGenerateRequestData: Sendable {
     /// An optional array of base64-encoded images.
     public let images: [String]?
 
-    /// Optional ``OKJSONValue`` representing the JSON schema for the response.
+    /// Optional ``JSONSchema`` representing the JSON schema for the response.
     /// Be sure to also include "return as JSON" in your prompt
-    public let format: OKJSONValue?
+    public let format: JSONSchema?
 
     /// An optional string specifying the system message.
     public var system: String?
@@ -33,11 +34,39 @@ public struct OKGenerateRequestData: Sendable {
     /// Optional ``OKCompletionOptions`` providing additional configuration for the generation request.
     public var options: OKCompletionOptions?
     
-    public init(model: String, prompt: String, images: [String]? = nil, format: OKJSONValue? = nil) {
+    public init(
+        model: String,
+        prompt: String,
+        images: [String]? = nil,
+        system: String? = nil,
+        context: [Int]? = nil,
+        format: JSONSchema? = nil,
+        options: OKCompletionOptions? = nil
+    ) {
         self.stream = true
         self.model = model
         self.prompt = prompt
         self.images = images
+        self.system = system
+        self.context = context
+        self.format = format
+        self.options = options
+    }
+    
+    public init(
+        model: String,
+        prompt: String,
+        images: [String]? = nil,
+        format: JSONSchema? = nil,
+        with configureOptions: @Sendable (inout OKCompletionOptions) -> Void
+    ) {
+        self.stream = true
+        self.model = model
+        self.prompt = prompt
+        self.images = images
+        var options = OKCompletionOptions()
+        configureOptions(&options)
+        self.options = options
         self.format = format
     }
 }

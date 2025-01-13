@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import JSONSchema
 
 /// A structure that represents the response to a chat request from the Ollama API.
 public struct OKChatResponse: OKCompletionResponse, Decodable, Sendable {
@@ -55,7 +56,7 @@ public struct OKChatResponse: OKCompletionResponse, Decodable, Sendable {
         public var toolCalls: [ToolCall]?
         
         /// An enumeration representing the role of the message sender.
-        public enum Role: String, Decodable, Sendable {
+        public enum Role: RawRepresentable, Decodable, Sendable {
             /// The message is from the system.
             case system
             
@@ -64,6 +65,37 @@ public struct OKChatResponse: OKCompletionResponse, Decodable, Sendable {
             
             /// The message is from the user.
             case user
+            
+            /// A custom role with a specified name.
+            case custom(String)
+            
+            // Initializer for RawRepresentable conformance
+            public init?(rawValue: String) {
+                switch rawValue {
+                case "system":
+                    self = .system
+                case "assistant":
+                    self = .assistant
+                case "user":
+                    self = .user
+                default:
+                    self = .custom(rawValue)
+                }
+            }
+            
+            // Computed property to get the raw value as a string.
+            public var rawValue: String {
+                switch self {
+                case .system:
+                    return "system"
+                case .assistant:
+                    return "assistant"
+                case .user:
+                    return "user"
+                case .custom(let value):
+                    return value
+                }
+            }
         }
         
         /// A structure that represents a tool call in the response.
