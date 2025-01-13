@@ -1,4 +1,5 @@
 {
+  "originHash" : "01431723e770c237a52728e57f3f88f4b5a006d0bcafdaf43fb4b69479b0f188",
   "pins" : [
     {
       "identity" : "swift-docc-plugin",
@@ -17,7 +18,16 @@
         "revision" : "b45d1f2ed151d057b54504d653e0da5552844e34",
         "version" : "1.0.0"
       }
+    },
+    {
+      "identity" : "swift-json-schema",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/kevinhermawan/swift-json-schema.git",
+      "state" : {
+        "revision" : "4a9284e44d8ef2bfc863734e9ff535909ae6b27a",
+        "version" : "2.0.1"
+      }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

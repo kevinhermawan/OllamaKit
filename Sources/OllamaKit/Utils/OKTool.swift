@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import JSONSchema
 
 /// Represents a tool that can be used in the Ollama API chat.
 public struct OKTool: Encodable, Sendable {
@@ -35,9 +36,9 @@ public struct OKFunction: Encodable, Sendable {
     public let description: String
     
     /// Parameters required by the function, defined as a JSON schema.
-    public let parameters: OKJSONValue
+    public let parameters: JSONSchema
     
-    public init(name: String, description: String, parameters: OKJSONValue) {
+    public init(name: String, description: String, parameters: JSONSchema) {
         self.name = name
         self.description = description
         self.parameters = parameters

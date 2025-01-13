@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import JSONSchema
 
 /// A structure that encapsulates the data required for generating responses using the Ollama API.
 public struct OKGenerateRequestData: Sendable {
@@ -20,9 +21,9 @@ public struct OKGenerateRequestData: Sendable {
     /// An optional array of base64-encoded images.
     public let images: [String]?
 
-    /// Optional ``OKJSONValue`` representing the JSON schema for the response.
+    /// Optional ``JSONSchema`` representing the JSON schema for the response.
     /// Be sure to also include "return as JSON" in your prompt
-    public let format: OKJSONValue?
+    public let format: JSONSchema?
 
     /// An optional string specifying the system message.
     public var system: String?
@@ -39,7 +40,7 @@ public struct OKGenerateRequestData: Sendable {
         images: [String]? = nil,
         system: String? = nil,
         context: [Int]? = nil,
-        format: OKJSONValue? = nil,
+        format: JSONSchema? = nil,
         options: OKCompletionOptions? = nil
     ) {
         self.stream = true
@@ -56,7 +57,7 @@ public struct OKGenerateRequestData: Sendable {
         model: String,
         prompt: String,
         images: [String]? = nil,
-        format: OKJSONValue? = nil,
+        format: JSONSchema? = nil,
         with configureOptions: @Sendable (inout OKCompletionOptions) -> Void
     ) {
         self.stream = true

@@ -26,17 +26,22 @@ extension OllamaKit {
     ///             OKFunction(
     ///                 name: "get_current_weather",
     ///                 description: "Fetch current weather information.",
-    ///                 parameters: .object([
-    ///                     "location": .object([
-    ///                         "type": .string("string"),
-    ///                         "description": .string("The location to get the weather for, e.g., Tokyo")
-    ///                     ]),
-    ///                     "format": .object([
-    ///                         "type": .string("string"),
-    ///                         "description": .string("The format for the weather, e.g., 'celsius'."),
-    ///                         "enum": .array([.string("celsius"), .string("fahrenheit")])
-    ///                     ])
-    ///                 ], required: ["location", "format"])
+    ///                 parameters: .object(
+    ///                     description: "Parameters for fetching weather",
+    ///                     properties: [
+    ///                         "location": .string(
+    ///                             description: "The location to get the weather for, e.g., Tokyo"
+    ///                         ),
+    ///                         "format": .enum(
+    ///                             description: "The format for the weather, e.g., 'celsius'.",
+    ///                             values: [
+    ///                                 .string("celsius"),
+    ///                                 .string("fahrenheit")
+    ///                             ]
+    ///                         )
+    ///                     ],
+    ///                     required: ["location", "format"]
+    ///                 )
     ///             )
     ///         )
     ///     ]
@@ -83,17 +88,22 @@ extension OllamaKit {
     ///             OKFunction(
     ///                 name: "get_current_weather",
     ///                 description: "Fetch current weather information.",
-    ///                 parameters: .object([
-    ///                     "location": .object([
-    ///                         "type": .string("string"),
-    ///                         "description": .string("The location to get the weather for, e.g., Tokyo")
-    ///                     ]),
-    ///                     "format": .object([
-    ///                         "type": .string("string"),
-    ///                         "description": .string("The format for the weather, e.g., 'celsius'."),
-    ///                         "enum": .array([.string("celsius"), .string("fahrenheit")])
-    ///                     ])
-    ///                 ], required: ["location", "format"])
+    ///                 parameters: .object(
+    ///                     description: "Parameters for fetching weather",
+    ///                     properties: [
+    ///                         "location": .string(
+    ///                             description: "The location to get the weather for, e.g., Tokyo"
+    ///                         ),
+    ///                         "format": .enum(
+    ///                             description: "The format for the weather, e.g., 'celsius'.",
+    ///                             values: [
+    ///                                 .string("celsius"),
+    ///                                 .string("fahrenheit")
+    ///                             ]
+    ///                         )
+    ///                     ],
+    ///                     required: ["location", "format"]
+    ///                 )
     ///             )
     ///         )
     ///     ]

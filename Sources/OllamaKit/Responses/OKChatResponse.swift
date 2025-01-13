@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import JSONSchema
 
 /// A structure that represents the response to a chat request from the Ollama API.
 public struct OKChatResponse: OKCompletionResponse, Decodable, Sendable {

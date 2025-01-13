@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import JSONSchema
 
 /// A structure that encapsulates data for chat requests to the Ollama API.
 public struct OKChatRequestData: Sendable {
@@ -17,12 +18,12 @@ public struct OKChatRequestData: Sendable {
     /// An array of ``Message`` instances representing the content to be sent to the Ollama API.
     public let messages: [Message]
     
-    /// An optional array of ``OKJSONValue`` representing the tools available for tool calling in the chat.
+    /// An optional array of ``OKTool`` representing the tools available for tool calling in the chat.
     public let tools: [OKTool]?
 
-    /// Optional ``OKJSONValue`` representing the JSON schema for the response.
+    /// Optional ``JSONSchema`` representing the JSON schema for the response.
     /// Be sure to also include "return as JSON" in your prompt
-    public let format: OKJSONValue?
+    public let format: JSONSchema?
 
     /// Optional ``OKCompletionOptions`` providing additional configuration for the chat request.
     public var options: OKCompletionOptions?
@@ -32,7 +33,7 @@ public struct OKChatRequestData: Sendable {
         model: String,
         messages: [Message],
         tools: [OKTool]? = nil,
-        format: OKJSONValue? = nil,
+        format: JSONSchema? = nil,
         options: OKCompletionOptions? = nil
     ) {
         self.stream = tools == nil
@@ -47,7 +48,7 @@ public struct OKChatRequestData: Sendable {
         model: String,
         messages: [Message],
         tools: [OKTool]? = nil,
-        format: OKJSONValue? = nil,
+        format: JSONSchema? = nil,
         with configureOptions: @Sendable (inout OKCompletionOptions) -> Void
     ) {
         self.stream = tools == nil
