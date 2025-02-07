@@ -33,7 +33,14 @@ internal extension OKHTTPClient {
                 do {
                     let (bytes, response) = try await URLSession.shared.bytes(for: request)
                     try validate(response: response)
-                    
+
+                    continuation.onTermination = { terminationState in
+                        // Cancellation of our task should cancel the URLSessionDataTask
+                        if case .cancelled = terminationState {
+                            bytes.task.cancel()
+                        }
+                    }
+
                     var buffer = Data()
                     
                     for try await byte in bytes {
