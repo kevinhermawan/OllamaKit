@@ -100,7 +100,7 @@ extension OllamaKit {
     /// - Returns: An `AsyncThrowingStream<OKChatResponse, Error>` emitting the live stream of chat responses from the Ollama API.
     public func chat(data: OKChatRequestData) -> AsyncThrowingStream<OKChatResponse, Error> {
         do {
-            let request = try OKRouter.chat(data: data).asURLRequest(with: baseURL)
+            let request = try OKRouter.chat(data: data).asURLRequest(with: baseURL, with: bearerToken)
 
             return OKHTTPClient.shared.stream(request: request, with: OKChatResponse.self)
         } catch {
@@ -197,7 +197,7 @@ extension OllamaKit {
     /// - Returns: An `AnyPublisher<OKChatResponse, Error>` emitting the live stream of chat responses from the Ollama API.
     public func chat(data: OKChatRequestData) -> AnyPublisher<OKChatResponse, Error> {
         do {
-            let request = try OKRouter.chat(data: data).asURLRequest(with: baseURL)
+            let request = try OKRouter.chat(data: data).asURLRequest(with: baseURL, with: bearerToken)
 
             return OKHTTPClient.shared.stream(request: request, with: OKChatResponse.self)
         } catch {
