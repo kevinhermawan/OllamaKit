@@ -1,3 +1,7 @@
+# 5.0.8
+
+- Handle task cancellation by @pd95 in https://github.com/kevinhermawan/OllamaKit/pull/44
+
 # 5.0.7
 
 - feat: adds structured output support by @macistador in https://github.com/kevinhermawan/OllamaKit/pull/43
