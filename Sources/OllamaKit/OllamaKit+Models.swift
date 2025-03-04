@@ -21,7 +21,7 @@ extension OllamaKit {
     /// - Returns: An ``OKModelResponse`` object listing the available models.
     /// - Throws: An error if the request fails or the response can't be decoded.
     public func models() async throws -> OKModelResponse {
-        let request = try OKRouter.models.asURLRequest(with: baseURL)
+        let request = try OKRouter.models.asURLRequest(with: baseURL, with: bearerToken)
 
         return try await OKHTTPClient.shared.send(request: request, with: OKModelResponse.self)
     }
@@ -45,7 +45,7 @@ extension OllamaKit {
     /// - Returns: A `AnyPublisher<OKModelResponse, Error>` that emits the list of available models.
     public func models() -> AnyPublisher<OKModelResponse, Error> {
         do {
-            let request = try OKRouter.models.asURLRequest(with: baseURL)
+            let request = try OKRouter.models.asURLRequest(with: baseURL, with: bearerToken)
             
             return OKHTTPClient.shared.send(request: request, with: OKModelResponse.self)
         } catch {

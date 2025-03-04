@@ -20,47 +20,47 @@ internal enum OKRouter {
     
     internal var path: String {
         switch self {
-        case .root:
-            return "/"
-        case .models:
-            return "/api/tags"
-        case .modelInfo:
-            return "/api/show"
-        case .generate:
-            return "/api/generate"
-        case .chat:
-            return "/api/chat"
-        case .copyModel:
-            return "/api/copy"
-        case .deleteModel:
-            return "/api/delete"
-        case .pullModel:
-            return "/api/pull"
-        case .embeddings:
-            return "/api/embeddings"
+            case .root:
+                return "/"
+            case .models:
+                return "/api/tags"
+            case .modelInfo:
+                return "/api/show"
+            case .generate:
+                return "/api/generate"
+            case .chat:
+                return "/api/chat"
+            case .copyModel:
+                return "/api/copy"
+            case .deleteModel:
+                return "/api/delete"
+            case .pullModel:
+                return "/api/pull"
+            case .embeddings:
+                return "/api/embeddings"
         }
     }
     
     internal var method: String {
         switch self {
-        case .root:
-            return "HEAD"
-        case .models:
-            return "GET"
-        case .modelInfo:
-            return "POST"
-        case .generate:
-            return "POST"
-        case .chat:
-            return "POST"
-        case .copyModel:
-            return "POST"
-        case .deleteModel:
-            return "DELETE"
-        case .pullModel:
-            return "POST"
-        case .embeddings:
-            return "POST"
+            case .root:
+                return "HEAD"
+            case .models:
+                return "GET"
+            case .modelInfo:
+                return "POST"
+            case .generate:
+                return "POST"
+            case .chat:
+                return "POST"
+            case .copyModel:
+                return "POST"
+            case .deleteModel:
+                return "DELETE"
+            case .pullModel:
+                return "POST"
+            case .embeddings:
+                return "POST"
         }
     }
     
@@ -70,30 +70,39 @@ internal enum OKRouter {
 }
 
 extension OKRouter {
-    func asURLRequest(with baseURL: URL) throws -> URLRequest {
+    func asURLRequest(with baseURL: URL, with bearerToken: String?) throws -> URLRequest {
+        let hasBearerToken = bearerToken != nil && bearerToken!.isEmpty == false
         let url = baseURL.appendingPathComponent(path)
         
         var request = URLRequest(url: url)
         request.httpMethod = method
-        request.allHTTPHeaderFields = headers
+        
+        if (hasBearerToken) {
+            request.allHTTPHeaderFields = [
+                "Authorization": "Bearer " + bearerToken!,
+                "Content-Type": "application/json"
+            ]
+        } else {
+            request.allHTTPHeaderFields = headers
+        }
         
         switch self {
-        case .modelInfo(let data):
-            request.httpBody = try JSONEncoder.default.encode(data)
-        case .generate(let data):
-            request.httpBody = try JSONEncoder.default.encode(data)
-        case .chat(let data):
-            request.httpBody = try JSONEncoder.default.encode(data)
-        case .copyModel(let data):
-            request.httpBody = try JSONEncoder.default.encode(data)
-        case .deleteModel(let data):
-            request.httpBody = try JSONEncoder.default.encode(data)
-        case .pullModel(let data):
-            request.httpBody = try JSONEncoder.default.encode(data)
-        case .embeddings(let data):
-            request.httpBody = try JSONEncoder.default.encode(data)
-        default:
-            break
+            case .modelInfo(let data):
+                request.httpBody = try JSONEncoder.default.encode(data)
+            case .generate(let data):
+                request.httpBody = try JSONEncoder.default.encode(data)
+            case .chat(let data):
+                request.httpBody = try JSONEncoder.default.encode(data)
+            case .copyModel(let data):
+                request.httpBody = try JSONEncoder.default.encode(data)
+            case .deleteModel(let data):
+                request.httpBody = try JSONEncoder.default.encode(data)
+            case .pullModel(let data):
+                request.httpBody = try JSONEncoder.default.encode(data)
+            case .embeddings(let data):
+                request.httpBody = try JSONEncoder.default.encode(data)
+            default:
+                break
         }
         
         return request

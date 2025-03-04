@@ -21,7 +21,7 @@ extension OllamaKit {
     /// - Returns: `true` if the Ollama API is reachable, `false` otherwise.
     public func reachable() async -> Bool {
         do {
-            let request = try OKRouter.root.asURLRequest(with: baseURL)
+            let request = try OKRouter.root.asURLRequest(with: baseURL, with: bearerToken)
             try await OKHTTPClient.shared.send(request: request)
             
             return true
@@ -47,7 +47,7 @@ extension OllamaKit {
     /// - Returns: A `AnyPublisher<Bool, Never>` that emits `true` if the API is reachable, `false` otherwise.
     public func reachable() -> AnyPublisher<Bool, Never> {
         do {
-            let request = try OKRouter.root.asURLRequest(with: baseURL)
+            let request = try OKRouter.root.asURLRequest(with: baseURL, with: bearerToken)
             
             return OKHTTPClient.shared.send(request: request)
                 .map { _ in true }
