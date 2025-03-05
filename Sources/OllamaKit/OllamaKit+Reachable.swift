@@ -5,7 +5,6 @@
 //  Created by Kevin Hermawan on 01/01/24.
 //
 
-import Combine
 import Foundation
 
 extension OllamaKit {
@@ -29,7 +28,12 @@ extension OllamaKit {
             return false
         }
     }
-    
+}
+
+#if canImport(Combine)
+import Combine
+
+extension OllamaKit {
     /// Checks if the Ollama API is reachable, returning the result as a Combine publisher.
     ///
     /// This method performs a network request to the Ollama API and returns a Combine publisher that emits `true` if the API is reachable. In case of any errors, it emits `false`.
@@ -58,3 +62,4 @@ extension OllamaKit {
         }
     }
 }
+#endif

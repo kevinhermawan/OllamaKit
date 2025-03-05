@@ -5,7 +5,6 @@
 //  Created by Kevin Hermawan on 01/01/24.
 //
 
-import Combine
 import Foundation
 
 extension OllamaKit {
@@ -26,7 +25,12 @@ extension OllamaKit {
 
         try await OKHTTPClient.shared.send(request: request)
     }
-    
+}
+
+#if canImport(Combine)
+import Combine
+
+extension OllamaKit {
     /// Requests the Ollama API to copy a model, returning the result as a Combine publisher.
     ///
     /// This method provides a reactive approach to request a model copy operation. It accepts ``OKCopyModelRequestData`` and returns a Combine publisher that completes when the copy operation is finished.
@@ -56,3 +60,4 @@ extension OllamaKit {
         }
     }
 }
+#endif

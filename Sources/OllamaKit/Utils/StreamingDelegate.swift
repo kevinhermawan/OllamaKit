@@ -5,6 +5,7 @@
 //  Created by Kevin Hermawan on 09/06/24.
 //
 
+#if canImport(Combine)
 @preconcurrency import Combine
 import Foundation
 
@@ -27,3 +28,4 @@ internal class StreamingDelegate: NSObject, URLSessionDataDelegate, @unchecked S
         subject.eraseToAnyPublisher()
     }
 }
+#endif

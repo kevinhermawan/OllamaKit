@@ -5,7 +5,6 @@
 //  Created by Kevin Hermawan on 08/06/24.
 //
 
-import Combine
 import Foundation
 
 internal struct OKHTTPClient {
@@ -66,6 +65,9 @@ internal extension OKHTTPClient {
     }
 }
 
+#if canImport(Combine)
+import Combine
+
 internal extension OKHTTPClient {
     func send<T: Decodable>(request: URLRequest, with responseType: T.Type) -> AnyPublisher<T, Error> {
         return URLSession.shared.dataTaskPublisher(for: request)
@@ -119,6 +121,7 @@ internal extension OKHTTPClient {
             .eraseToAnyPublisher()
     }
 }
+#endif
 
 private extension OKHTTPClient {
     func validate(response: URLResponse) throws {

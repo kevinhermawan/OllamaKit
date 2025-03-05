@@ -5,7 +5,6 @@
 //  Created by Lukas Pistrol on 25.11.24.
 //
 
-import Combine
 import Foundation
 
 extension OllamaKit {
@@ -40,7 +39,12 @@ extension OllamaKit {
             }
         }
     }
+}
 
+#if canImport(Combine)
+import Combine
+
+extension OllamaKit {
     /// Establishes a Combine publisher for pulling a model from the ollama library.
     ///
     /// This method will periodically yield ``OKPullModelResponse`` structures as the model is being pulled.
@@ -74,5 +78,5 @@ extension OllamaKit {
             return Fail(error: error).eraseToAnyPublisher()
         }
     }
-
 }
+#endif
