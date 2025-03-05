@@ -31,9 +31,9 @@ jobs:
       - name: Build docs
         run: swift package --allow-writing-to-directory ./docs generate-documentation --target OllamaKit --disable-indexing --output-path ./docs --transform-for-static-hosting --hosting-base-path OllamaKit
 
-      - uses: actions/upload-pages-artifact@v2
+      - uses: actions/upload-pages-artifact@v3
         with:
           path: "docs"
 
-      - uses: actions/deploy-pages@v2
+      - uses: actions/deploy-pages@v4
         id: deployment
