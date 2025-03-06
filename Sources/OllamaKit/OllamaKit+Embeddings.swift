@@ -5,7 +5,6 @@
 //  Created by Paul Thrasher on 02/09/24.
 //
 
-import Combine
 import Foundation
 
 extension OllamaKit {
@@ -27,7 +26,12 @@ extension OllamaKit {
 
         return try await OKHTTPClient.shared.send(request: request, with: OKEmbeddingsResponse.self)
     }
-    
+}
+
+#if canImport(Combine)
+import Combine
+
+extension OllamaKit {
     /// Retrieves embeddings from a specific model from the Ollama API as a Combine publisher.
     ///
     /// This method provides a reactive approach to generate embeddings. It accepts ``OKEmbeddingsRequestData`` and returns a Combine publisher that emits an ``OKEmbeddingsResponse`` upon successful retrieval.
@@ -57,3 +61,4 @@ extension OllamaKit {
         }
     }
 }
+#endif
