@@ -15,6 +15,50 @@ internal struct OKHTTPClient {
     static let shared = OKHTTPClient()
 }
 
+#if canImport(FoundationNetworking)
+fileprivate final class DataTaskDelegate: NSObject, URLSessionDataDelegate {
+
+    let urlResponseCallback: (@Sendable (URLResponse) -> Void)?
+    let dataCallback: (@Sendable (Data) -> Void)?
+    let completionCallback: (@Sendable (Error?) -> Void)?
+
+    init(urlResponseCallback: (@Sendable (URLResponse) -> Void)?,
+         dataCallback: (@Sendable (Data) -> Void)?,
+         completionCallback: (@Sendable (Error?) -> Void)?
+    ) {
+        self.urlResponseCallback = urlResponseCallback
+        self.dataCallback = dataCallback
+        self.completionCallback = completionCallback
+    }
+
+    func urlSession(
+        _ session: URLSession,
+        dataTask: URLSessionDataTask,
+        didReceive response: URLResponse,
+        completionHandler: @escaping (URLSession.ResponseDisposition) -> Void
+    ) {
+        urlResponseCallback?(response)
+        completionHandler(.allow)
+    }
+
+
+    func urlSession(_ session: URLSession,
+                    dataTask: URLSessionDataTask,
+                    didReceive data: Data) {
+        // Handle the incoming data chunk here
+        dataCallback?(data)
+    }
+
+
+    func urlSession(_ session: URLSession,
+                    task: URLSessionTask,
+                    didCompleteWithError error: Error?) {
+        // Handle completion or errors
+        completionCallback?(error)
+    }
+}
+#endif
+
 internal extension OKHTTPClient {
     func send(request: URLRequest) async throws -> Void {
         let (_, response) = try await URLSession.shared.data(for: request)
@@ -28,7 +72,49 @@ internal extension OKHTTPClient {
         
         return try decoder.decode(T.self, from: data)
     }
-    
+
+    #if canImport(FoundationNetworking)
+    func stream<T: Decodable>(request: URLRequest, with responseType: T.Type) -> AsyncThrowingStream<T, Error> {
+        return AsyncThrowingStream { continuation in
+            Task {
+                let task = URLSession.shared.dataTask(with: request)
+                let delegate = DataTaskDelegate(
+                    urlResponseCallback: { response in
+                        do {
+                            try validate(response: response)
+                        } catch {
+                            continuation.finish(throwing: error)
+                        }
+                    },
+                    dataCallback: { data in
+                        do {
+                            let decodedObject = try self.decoder.decode(T.self, from: data)
+                            continuation.yield(decodedObject)
+                        } catch {
+                            continuation.finish(throwing: error)
+                        }
+                    },
+                    completionCallback: { error in
+                        if let error {
+                            continuation.finish(throwing: error)
+                        }
+                        continuation.finish()
+                    }
+                )
+                task.delegate = delegate
+
+                continuation.onTermination = { terminationState in
+                    // Cancellation of our task should cancel the URLSessionDataTask
+                    if case .cancelled = terminationState {
+                        task.cancel()
+                    }
+                }
+
+                task.resume()
+            }
+        }
+    }
+    #else
     func stream<T: Decodable>(request: URLRequest, with responseType: T.Type) -> AsyncThrowingStream<T, Error> {
         return AsyncThrowingStream { continuation in
             Task {
@@ -66,6 +152,7 @@ internal extension OKHTTPClient {
             }
         }
     }
+    #endif
 }
 
 #if canImport(Combine)
