@@ -1,5 +1,5 @@
 {
-  "originHash" : "01431723e770c237a52728e57f3f88f4b5a006d0bcafdaf43fb4b69479b0f188",
+  "originHash" : "1b286c8c0a077892b2e712977f467e5f49595367ac433daf2de7e17cc43f93a6",
   "pins" : [
     {
       "identity" : "swift-docc-plugin",
@@ -22,10 +22,10 @@
     {
       "identity" : "swift-json-schema",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/kevinhermawan/swift-json-schema.git",
+      "location" : "https://github.com/1amageek/swift-json-schema.git",
       "state" : {
-        "revision" : "4a9284e44d8ef2bfc863734e9ff535909ae6b27a",
-        "version" : "2.0.1"
+        "branch" : "main",
+        "revision" : "ef7c71dcae944c18792a2164501394d111501004"
       }
     }
   ],
