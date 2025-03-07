@@ -11,5 +11,5 @@ import Foundation
 public struct OKEmbeddingsResponse: Decodable, Sendable {
     
     /// An array of doubles representing the embeddings of the input prompt.
-    public let embedding: [Double]?
+    public let embedding: [Float]?
 }

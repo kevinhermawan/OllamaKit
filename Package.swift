@@ -16,12 +16,15 @@ let package = Package(
             targets: ["OllamaKit"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-docc-plugin.git", .upToNextMajor(from: "1.3.0"))
+        .package(url: "https://github.com/apple/swift-docc-plugin.git", .upToNextMajor(from: "1.3.0")),
+        .package(url: "https://github.com/1amageek/swift-json-schema.git", branch: "main")
     ],
     targets: [
         .target(
             name: "OllamaKit",
-            dependencies: []),
+            dependencies: [
+                .product(name: "JSONSchema", package: "swift-json-schema")
+            ]),
         .testTarget(
             name: "OllamaKitTests",
             dependencies: ["OllamaKit"]),

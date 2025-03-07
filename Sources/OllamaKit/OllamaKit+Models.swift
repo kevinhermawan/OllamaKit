@@ -22,7 +22,6 @@ extension OllamaKit {
     /// - Throws: An error if the request fails or the response can't be decoded.
     public func models() async throws -> OKModelResponse {
         let request = try OKRouter.models.asURLRequest(with: baseURL)
-
         return try await OKHTTPClient.shared.send(request: request, with: OKModelResponse.self)
     }
     
@@ -46,7 +45,6 @@ extension OllamaKit {
     public func models() -> AnyPublisher<OKModelResponse, Error> {
         do {
             let request = try OKRouter.models.asURLRequest(with: baseURL)
-            
             return OKHTTPClient.shared.send(request: request, with: OKModelResponse.self)
         } catch {
             return Fail(error: error).eraseToAnyPublisher()

@@ -48,7 +48,6 @@ extension OllamaKit {
     public func reachable() -> AnyPublisher<Bool, Never> {
         do {
             let request = try OKRouter.root.asURLRequest(with: baseURL)
-            
             return OKHTTPClient.shared.send(request: request)
                 .map { _ in true }
                 .replaceError(with: false)

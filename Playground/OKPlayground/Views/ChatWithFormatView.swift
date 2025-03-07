@@ -8,6 +8,7 @@
 import Combine
 import OllamaKit
 import SwiftUI
+import JSONSchema
 
 struct ChatWithFormatView: View {
 
@@ -133,19 +134,17 @@ struct ChatWithFormatView: View {
             .store(in: &cancellables)
     }
 
-    private func getFormat() -> OKJSONValue {
-        return
-            .object(["type": .string("array"),
-                     "items": .object([
-                        "type" : .string("object"),
-                        "properties": .object([
-                            "id": .object(["type" : .string("string")]),
-                            "country": .object(["type" : .string("string")]),
-                            "capital": .object(["type" : .string("string")]),
-                        ]),
-                        "required": .array([.string("id"), .string("country"), .string("capital")])
-                     ])
-                    ])
+    private func getFormat() -> JSONSchema {
+        return .array(
+            items:.object(
+                properties: [
+                    "id": .string(),
+                    "country": .string(),
+                    "capital": .string()
+                ],
+                required: ["id", "country", "capital"]
+            )
+        )
     }
 
     private func decodeResponse(_ content: String) {
