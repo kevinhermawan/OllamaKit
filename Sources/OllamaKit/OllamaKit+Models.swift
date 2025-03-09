@@ -5,7 +5,6 @@
 //  Created by Kevin Hermawan on 01/01/24.
 //
 
-import Combine
 import Foundation
 
 extension OllamaKit {
@@ -25,7 +24,12 @@ extension OllamaKit {
 
         return try await OKHTTPClient.shared.send(request: request, with: OKModelResponse.self)
     }
-    
+}
+
+#if canImport(Combine)
+import Combine
+
+extension OllamaKit {
     /// Retrieves a list of available models from the Ollama API as a Combine publisher.
     ///
     /// This method provides a reactive approach to fetch model data, returning a Combine publisher that emits an ``OKModelResponse`` with details of available models.
@@ -53,3 +57,4 @@ extension OllamaKit {
         }
     }
 }
+#endif

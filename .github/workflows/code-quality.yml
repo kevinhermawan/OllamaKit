@@ -29,3 +29,14 @@ jobs:
 
       - name: Build and test
         run: xcodebuild test -scheme OllamaKit -destination 'platform=macOS,arch=x86_64'
+
+  test-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Swift version
+        run: swift --version
+
+      - uses: actions/checkout@v4
+
+      - name: Build and test
+        run: swift build
