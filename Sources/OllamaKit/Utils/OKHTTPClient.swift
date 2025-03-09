@@ -15,50 +15,6 @@ internal struct OKHTTPClient {
     static let shared = OKHTTPClient()
 }
 
-#if canImport(FoundationNetworking)
-fileprivate final class DataTaskDelegate: NSObject, URLSessionDataDelegate {
-
-    let urlResponseCallback: (@Sendable (URLResponse) -> Void)?
-    let dataCallback: (@Sendable (Data) -> Void)?
-    let completionCallback: (@Sendable (Error?) -> Void)?
-
-    init(urlResponseCallback: (@Sendable (URLResponse) -> Void)?,
-         dataCallback: (@Sendable (Data) -> Void)?,
-         completionCallback: (@Sendable (Error?) -> Void)?
-    ) {
-        self.urlResponseCallback = urlResponseCallback
-        self.dataCallback = dataCallback
-        self.completionCallback = completionCallback
-    }
-
-    func urlSession(
-        _ session: URLSession,
-        dataTask: URLSessionDataTask,
-        didReceive response: URLResponse,
-        completionHandler: @escaping (URLSession.ResponseDisposition) -> Void
-    ) {
-        urlResponseCallback?(response)
-        completionHandler(.allow)
-    }
-
-
-    func urlSession(_ session: URLSession,
-                    dataTask: URLSessionDataTask,
-                    didReceive data: Data) {
-        // Handle the incoming data chunk here
-        dataCallback?(data)
-    }
-
-
-    func urlSession(_ session: URLSession,
-                    task: URLSessionTask,
-                    didCompleteWithError error: Error?) {
-        // Handle completion or errors
-        completionCallback?(error)
-    }
-}
-#endif
-
 internal extension OKHTTPClient {
     func send(request: URLRequest) async throws -> Void {
         let (_, response) = try await URLSession.shared.data(for: request)
@@ -78,7 +34,8 @@ internal extension OKHTTPClient {
         return AsyncThrowingStream { continuation in
             Task {
                 let task = URLSession.shared.dataTask(with: request)
-                let delegate = DataTaskDelegate(
+
+                let delegate = StreamingDelegate(
                     urlResponseCallback: { response in
                         do {
                             try validate(response: response)
@@ -86,12 +43,15 @@ internal extension OKHTTPClient {
                             continuation.finish(throwing: error)
                         }
                     },
-                    dataCallback: { data in
-                        do {
-                            let decodedObject = try self.decoder.decode(T.self, from: data)
-                            continuation.yield(decodedObject)
-                        } catch {
-                            continuation.finish(throwing: error)
+                    dataCallback: { buffer in   //
+                        while let chunk = self.extractNextJSON(from: &buffer) {
+                            do {
+                                let decodedObject = try self.decoder.decode(T.self, from: chunk)
+                                continuation.yield(decodedObject)
+                            } catch {
+                                continuation.finish(throwing: error)
+                                return
+                            }
                         }
                     },
                     completionCallback: { error in
