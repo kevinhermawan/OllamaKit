@@ -5,28 +5,26 @@
 //  Created by Michel-Andre Chirita on 30/12/2024.
 //
 
-import Combine
 import OllamaKit
 import SwiftUI
 
 struct ChatWithFormatView: View {
-
+    
     enum ViewState {
         case idle
         case loading
         case error(String)
     }
-
+    
     @Environment(ViewModel.self) private var viewModel
-
+    
     @State private var model: String? = nil
     /// TIP: be sure to include "return as JSON" in your prompt
     @State private var prompt = "Lists of the 10 biggest countries in the world with their iso code as id, name and capital, return as JSON"
-    @State private var cancellables = Set<AnyCancellable>()
     @State private var viewState: ViewState = .idle
-
+    
     @State private var responseItems: [ResponseItem] = []
-
+    
     var body: some View {
         NavigationStack {
             Form {
@@ -37,29 +35,28 @@ struct ChatWithFormatView: View {
                                 .tag(model as String?)
                         }
                     }
-
+                    
                     TextField("Prompt", text: $prompt, axis: .vertical)
                         .lineLimit(5)
                 }
-
+                
                 Section {
                     Button("Chat Async", action: actionAsync)
-                    Button("Chat Combine", action: actionCombine)
                 }
-
+                
                 switch viewState {
                 case .idle:
                     EmptyView()
-
+                    
                 case .loading:
                     ProgressView()
                         .id(UUID())
-
+                    
                 case .error(let error):
                     Text(error)
                         .foregroundStyle(.red)
                 }
-
+                
                 Section("Response") {
                     ForEach(responseItems) { item in
                         Text("Country: " + item.country + ", capital: " + item.capital)
@@ -73,16 +70,16 @@ struct ChatWithFormatView: View {
             }
         }
     }
-
+    
     func actionAsync() {
         clearResponse()
-
+        
         guard let model = model else { return }
         let messages = [OKChatRequestData.Message(role: .user, content: prompt)]
         var data = OKChatRequestData(model: model, messages: messages, format: getFormat())
         data.options = OKCompletionOptions(temperature: 0) /// TIP: better results with temperature = 0
         self.viewState = .loading
-
+        
         Task {
             do {
                 var message: String = ""
@@ -101,38 +98,7 @@ struct ChatWithFormatView: View {
             }
         }
     }
-
-    func actionCombine() {
-        clearResponse()
-
-        guard let model = model else { return }
-        let messages = [OKChatRequestData.Message(role: .user, content: prompt)]
-        var data = OKChatRequestData(model: model, messages: messages, format: getFormat())
-        data.options = OKCompletionOptions(temperature: 0) /// TIP: better results with temperature = 0
-        self.viewState = .loading
-
-        var message: String = ""
-        viewModel.ollamaKit.chat(data: data)
-            .compactMap { $0.message?.content }
-            .scan("", { result, nextChunk in
-                result + nextChunk
-            })
-            .sink { completion in
-                switch completion {
-                case .finished:
-                    print("Finished")
-                    decodeResponse(message)
-                    self.viewState = .idle
-                case .failure(let error):
-                    print("Error:", error.localizedDescription)
-                    self.viewState = .error(error.localizedDescription)
-                }
-            } receiveValue: { value in
-                message = value
-            }
-            .store(in: &cancellables)
-    }
-
+    
     private func getFormat() -> OKJSONValue {
         return
             .object(["type": .string("array"),
@@ -147,7 +113,7 @@ struct ChatWithFormatView: View {
                      ])
                     ])
     }
-
+    
     private func decodeResponse(_ content: String) {
         do {
             guard let data = content.data(using: .utf8) else { return }
@@ -158,7 +124,7 @@ struct ChatWithFormatView: View {
             self.viewState = .error(error.localizedDescription)
         }
     }
-
+    
     private func clearResponse() {
         self.responseItems = []
     }

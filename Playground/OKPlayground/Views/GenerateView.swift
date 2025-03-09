@@ -5,7 +5,6 @@
 //  Created by Kevin Hermawan on 09/06/24.
 //
 
-import Combine
 import SwiftUI
 import OllamaKit
 
@@ -16,7 +15,6 @@ struct GenerateView: View {
     @State private var temperature: Double = 0.5
     @State private var prompt = ""
     @State private var response = ""
-    @State private var cancellables = Set<AnyCancellable>()
     
     var body: some View {
         NavigationStack {
@@ -46,7 +44,6 @@ struct GenerateView: View {
                 
                 Section {
                     Button("Generate Async", action: actionAsync)
-                    Button("Generate Combine", action: actionCombine)
                 }
                 
                 Section("Response") {
@@ -73,26 +70,5 @@ struct GenerateView: View {
                 self.response += chunk.response
             }
         }
-    }
-    
-    func actionCombine() {
-        self.response = ""
-        
-        guard let model = model else { return }
-        var data = OKGenerateRequestData(model: model, prompt: prompt)
-        data.options = OKCompletionOptions(temperature: temperature)
-        
-        viewModel.ollamaKit.generate(data: data)
-            .sink { completion in
-                switch completion {
-                case .finished:
-                    print("Finished")
-                case .failure(let error):
-                    print("Error:", error.localizedDescription)
-                }
-            } receiveValue: { value in
-                self.response += value.response
-            }
-            .store(in: &cancellables)
     }
 }
