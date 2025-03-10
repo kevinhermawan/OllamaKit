@@ -5,7 +5,6 @@
 //  Created by Kevin Hermawan on 28/07/24.
 //
 
-import Combine
 import OllamaKit
 import SwiftUI
 
@@ -14,7 +13,6 @@ struct ChatWithToolsView: View {
     
     @State private var model: String? = nil
     @State private var prompt = ""
-    @State private var cancellables = Set<AnyCancellable>()
     
     @State private var toolCalledResponse = ""
     @State private var argumentsResponse = ""
@@ -37,7 +35,6 @@ struct ChatWithToolsView: View {
                 
                 Section {
                     Button("Chat Async", action: actionAsync)
-                    Button("Chat Combine", action: actionCombine)
                 }
                 
                 Section("Response") {
@@ -76,33 +73,6 @@ struct ChatWithToolsView: View {
                 }
             }
         }
-    }
-    
-    func actionCombine() {
-        clearResponses()
-        
-        guard let model = model else { return }
-        let messages = [OKChatRequestData.Message(role: .user, content: prompt)]
-        let data = OKChatRequestData(model: model, messages: messages, tools: getTools())
-        
-        viewModel.ollamaKit.chat(data: data)
-            .sink { completion in
-                switch completion {
-                case .finished:
-                    print("Finished")
-                case .failure(let error):
-                    print("Error:", error.localizedDescription)
-                }
-            } receiveValue: { value in
-                if let toolCalls = value.message?.toolCalls {
-                    for toolCall in toolCalls {
-                        if let function = toolCall.function {
-                            setResponses(function)
-                        }
-                    }
-                }
-            }
-            .store(in: &cancellables)
     }
     
     private func getTools() -> [OKJSONValue] {

@@ -5,7 +5,6 @@
 //  Created by Kevin Hermawan on 08/06/24.
 //
 
-import Combine
 import SwiftUI
 import OllamaKit
 
@@ -15,7 +14,6 @@ struct EmbeddingsView: View {
     @State private var model: String? = nil
     @State private var prompt = ""
     @State private var embedding = [Double]()
-    @State private var cancellables = Set<AnyCancellable>()
     
     var body: some View {
         NavigationStack {
@@ -39,7 +37,6 @@ struct EmbeddingsView: View {
                 
                 Section {
                     Button("Embed Async", action: actionAsync)
-                    Button("Embed Combine", action: actionCombine)
                 }
             }
             .navigationTitle("Embeddings")
@@ -60,25 +57,5 @@ struct EmbeddingsView: View {
             
             self.embedding = embedding
         }
-    }
-    
-    private func actionCombine() {
-        guard let model = model else { return }
-        let data = OKEmbeddingsRequestData(model: model, prompt: prompt)
-        
-        viewModel.ollamaKit.embeddings(data: data)
-            .sink { completion in
-                switch completion {
-                case .finished:
-                    print("Finished")
-                case .failure(let error):
-                    print("Error:", error.localizedDescription)
-                }
-            } receiveValue: { value in
-                guard let embedding = value.embedding else { return }
-                
-                self.embedding = embedding
-            }
-            .store(in: &cancellables)
     }
 }
