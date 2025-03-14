@@ -33,8 +33,6 @@ internal extension OKHTTPClient {
     func stream<T: Decodable>(request: URLRequest, with responseType: T.Type) -> AsyncThrowingStream<T, Error> {
         return AsyncThrowingStream { continuation in
             Task {
-                let task = URLSession.shared.dataTask(with: request)
-
                 let delegate = StreamingDelegate(
                     urlResponseCallback: { response in
                         do {
@@ -61,7 +59,9 @@ internal extension OKHTTPClient {
                         continuation.finish()
                     }
                 )
-                task.delegate = delegate
+
+                let session = URLSession(configuration: .default, delegate: delegate, delegateQueue: .main)
+                let task = session.dataTask(with: request)
 
                 continuation.onTermination = { terminationState in
                     // Cancellation of our task should cancel the URLSessionDataTask
