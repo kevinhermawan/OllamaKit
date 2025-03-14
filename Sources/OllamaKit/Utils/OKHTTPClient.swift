@@ -5,8 +5,10 @@
 //  Created by Kevin Hermawan on 08/06/24.
 //
 
-import Combine
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 internal struct OKHTTPClient {
     private let decoder: JSONDecoder = .default
@@ -26,7 +28,53 @@ internal extension OKHTTPClient {
         
         return try decoder.decode(T.self, from: data)
     }
-    
+
+    #if canImport(FoundationNetworking)
+    func stream<T: Decodable>(request: URLRequest, with responseType: T.Type) -> AsyncThrowingStream<T, Error> {
+        return AsyncThrowingStream { continuation in
+            Task {
+                let delegate = StreamingDelegate(
+                    urlResponseCallback: { response in
+                        do {
+                            try validate(response: response)
+                        } catch {
+                            continuation.finish(throwing: error)
+                        }
+                    },
+                    dataCallback: { buffer in   //
+                        while let chunk = self.extractNextJSON(from: &buffer) {
+                            do {
+                                let decodedObject = try self.decoder.decode(T.self, from: chunk)
+                                continuation.yield(decodedObject)
+                            } catch {
+                                continuation.finish(throwing: error)
+                                return
+                            }
+                        }
+                    },
+                    completionCallback: { error in
+                        if let error {
+                            continuation.finish(throwing: error)
+                        }
+                        continuation.finish()
+                    }
+                )
+
+                let session = URLSession(configuration: .default, delegate: delegate, delegateQueue: .main)
+                let task = session.dataTask(with: request)
+
+                continuation.onTermination = { terminationState in
+                    // Cancellation of our task should cancel the URLSessionDataTask
+                    if case .cancelled = terminationState {
+                        task.cancel()
+                    }
+                }
+
+                task.resume()
+            }
+        }
+    }
+    #else
     func stream<T: Decodable>(request: URLRequest, with responseType: T.Type) -> AsyncThrowingStream<T, Error> {
         return AsyncThrowingStream { continuation in
             Task {
@@ -64,7 +112,11 @@ internal extension OKHTTPClient {
             }
         }
     }
+    #endif
 }
+
+#if canImport(Combine)
+import Combine
 
 internal extension OKHTTPClient {
     func send<T: Decodable>(request: URLRequest, with responseType: T.Type) -> AnyPublisher<T, Error> {
@@ -119,6 +171,7 @@ internal extension OKHTTPClient {
             .eraseToAnyPublisher()
     }
 }
+#endif
 
 private extension OKHTTPClient {
     func validate(response: URLResponse) throws {
